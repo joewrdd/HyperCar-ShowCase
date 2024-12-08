@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - HyperCar Showcase</title>
+    <style>
+        /* General styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            color: white;
+        }
+        
+        /* Main container */
+        .container {
+            display: flex;
+            height: 100%;
+        }
+        
+        /* Signup form section */
+        .signup-section {
+            flex: 1;
+            background-color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .signup-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        /* Welcome section */
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(135deg, #000000, #cc0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,0,0,0.2), transparent 70%);
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-section h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Form styles */
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #333;
+            border: 1px solid #ff0000;
+            border-radius: 4px;
+            color: white;
+        }
+        
+        .signup-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(to right, #ff0000, #cc0000);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .signup-btn:hover {
+            background: linear-gradient(to right, #cc0000, #990000);
+        }
+        
+        /* Footer styles */
+        .footer {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .footer a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .welcome-section {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="signup-section">
+            <div class="signup-container">
+                <h1>Create an Account</h1>
+                <form id="signupForm" action="/userssu" method="POST">
+                    <div class="form-field">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="name" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="user-email">Email</label>
+                        <input type="email" id="user-email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="user-password">Password</label>
+                        <input type="password" id="user-password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="signup-btn">Sign Up</button>
+                </form>
+                <div class="footer">
+                    <p>Already have an account? <a href="/login">Log in</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="welcome-section">
+            <div class="welcome-bg"></div>
+            <div class="welcome-content">
+                <h1>Join Us.</h1>
+                <p>Create an account to start exploring our platform.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('user-email').value;
+            const password = document.getElementById('user-password').value;
+
+            try {
+                const response = await fetch('/userssu', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: username,
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    showCustomMessage('Account created successfully! Please log in.');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000); 
+                } else {
+                    showCustomMessage(data.message || 'Sign up failed!');
+                }
+            } catch (error) {
+                console.error('Sign up error:', error);
+                showCustomMessage('An error occurred while signing up. Please try again.');
+            }
+        });
+
+        function showCustomMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            messageElement.style.position = 'fixed';
+            messageElement.style.top = '20px';
+            messageElement.style.left = '50%';
+            messageElement.style.transform = 'translateX(-50%)';
+            messageElement.style.backgroundColor = '#333';
+            messageElement.style.color = 'white';
+            messageElement.style.padding = '10px 20px';
+            messageElement.style.borderRadius = '5px';
+            messageElement.style.zIndex = '1000';
+            document.body.appendChild(messageElement);
+
+            setTimeout(() => {
+                document.body.removeChild(messageElement);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

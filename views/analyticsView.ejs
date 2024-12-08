@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for character encoding and viewport settings -->
+    <meta charset="UTF-8"> <!-- Sets character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures responsive design for various screen sizes -->
+
+    <!-- Title of the page displayed on the browser tab -->
+    <title>Car Price Analytics</title>
+
+    <style>
+        /* Global styles */
+        body {
+            margin: 0; 
+            font-family: Arial, sans-serif; 
+            background-color: #121212; 
+            color: white; 
+        }
+
+        /* Header styling */
+        header {
+            background-color: #ff0000; 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+        }
+
+        h1 {
+            margin: 0; 
+            font-size: 2.5em;
+        }
+
+        /* Styling for the chart container */
+        .chart-container {
+            max-width: 1200px; 
+            margin: 50px auto; 
+            padding: 20px; 
+            background-color: #1e1e1e; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        }
+
+        canvas {
+            width: 100%; 
+            max-width: 1000px; 
+            margin: 0 auto;
+            display: block; 
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #1e1e1e; 
+            text-align: center;
+            padding: 10px 0; 
+            margin-top: 20px; 
+            font-size: 0.9em;
+        }
+
+        footer a {
+            color: #ff0000;
+            text-decoration: none; 
+        }
+
+        footer a:hover {
+            text-decoration: underline; 
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section containing the page title -->
+    <header>
+        <h1>Car Price Analytics</h1> <!-- Main title of the page -->
+    </header>
+
+    <!-- Chart container where the price chart will be displayed -->
+    <div class="chart-container">
+        <canvas id="priceChart"></canvas> <!-- Canvas element for the chart -->
+    </div>
+
+    <!-- Footer with copyright and link to homepage -->
+    <footer>
+        <p>&copy; 2024 HyperCar Showcase. All Rights Reserved <a href="home">Back to Homepage</a></p>
+    </footer>
+
+    <!-- Chart.js library for rendering the chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        /**
+         * Fetches car data from the server and passes it to the renderChart function
+         * 
+         * API Endpoint: GET /cars
+         * Fetches a list of cars with their brand, model, and price.
+         * 
+         * @returns {Promise<void>} None. Side effect: renders the chart.
+         */
+        async function fetchCarData() {
+            try {
+                // Fetch car data from the server
+                const response = await fetch('/cars');
+                const cars = await response.json(); // Parse the response as JSON
+
+                // Map car data to labels (car brand and model) and prices
+                const labels = cars.map(car => `${car.brand} ${car.model}`);
+                const prices = cars.map(car => parseFloat(car.price.replace(/[^0-9.-]+/g, ""))); // Remove non-numeric characters from price
+
+                // Render the chart with the fetched data
+                renderChart(labels, prices);
+            } catch (error) {
+                console.error('Error fetching car data:', error); // Log any errors encountered
+            }
+        }
+
+        /**
+         * Renders a line chart using Chart.js with the given car labels and prices.
+         * 
+         * @param {string[]} labels - An array of car names (e.g., ["Ferrari 488 GTB", "Lamborghini Aventador"]).
+         * @param {number[]} prices - An array of car prices (e.g., [250000, 350000]).
+         * @returns {void} None. Side effect: renders the chart on the page.
+         */
+        function renderChart(labels, prices) {
+            // Get the canvas context to render the chart
+            const ctx = document.getElementById('priceChart').getContext('2d');
+
+            // Initialize the chart with the specified data and options
+            new Chart(ctx, {
+                type: 'line', // Line chart type
+                data: {
+                    labels: labels, // X-axis labels (car names)
+                    datasets: [{
+                        label: 'Price Changes ($)', // Label for the dataset
+                        data: prices, // Y-axis data (car prices)
+                        borderColor: '#ff0000', // Red border color for the chart line
+                        backgroundColor: 'rgba(255, 0, 0, 0.2)', // Light red background for the chart
+                        fill: true, // Enable filling under the line
+                        tension: 0.4 // Smooth curve for the line
+                    }]
+                },
+                options: {
+                    responsive: true, // Make the chart responsive
+                    plugins: {
+                        legend: {
+                            display: true, // Show the legend
+                            labels: {
+                                color: 'white' // White legend text color
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: 'white' // White ticks on the X-axis
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: 'white' // White ticks on the Y-axis
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Fetch car data and render the chart on page load
+        fetchCarData();
+    </script>
+</body>
+</html>

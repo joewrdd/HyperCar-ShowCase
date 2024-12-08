@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - HyperCar Showcase</title>
+    <style>
+        /* General styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            color: white;
+        }
+        
+        /* Main container */
+        .container {
+            display: flex;
+            height: 100%;
+        }
+        
+        /* Login form section */
+        .login-section {
+            flex: 1;
+            background-color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        /* Welcome section */
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(135deg, #000000, #cc0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,0,0,0.2), transparent 70%);
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-section h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Form styles */
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #333;
+            border: 1px solid #ff0000;
+            border-radius: 4px;
+            color: white;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(to right, #ff0000, #cc0000);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background: linear-gradient(to right, #cc0000, #990000);
+        }
+        
+        /* Footer styles */
+        .footer {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .footer a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .welcome-section {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-section">
+            <div class="login-container">
+                <h1>Sign In</h1>
+                <form id="loginForm">
+                    <div class="form-field">
+                        <label for="user-identifier">Email or Username</label>
+                        <input type="text" id="user-identifier" name="user-identifier" placeholder="Enter your email or username" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="user-password">Password</label>
+                        <input type="password" id="user-password" name="user-password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+                <div class="footer">
+                    <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+                </div>
+            </div>  
+        </div>
+        <div class="welcome-section">
+            <div class="welcome-bg"></div>
+            <div class="welcome-content">
+                <h1>Welcome To HyperCar ShowCase</h1>
+                <p>Sign in to access your account and explore our platform.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const userIdentifier = document.getElementById('user-identifier').value;
+            const userPassword = document.getElementById('user-password').value;
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: userIdentifier, 
+                        email: userIdentifier, 
+                        password: userPassword
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok && data.token) {
+                    localStorage.setItem('auth_token', data.token);
+                    window.location.href = '/home';
+                } else {
+                    alert(data.message || 'Login failed!');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred while logging in. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - HyperCar Showcase</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Roboto', sans-serif; 
+            background-color: #111; 
+            color: #fff; 
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; 
+        }
+
+        /* Styling for the header section */
+        header {
+            background-color: #cc0000;
+            padding: 1rem 2rem;
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%; 
+            z-index: 10; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            display: flex; 
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* Container for main content */
+        .container {
+            margin-top: 8rem;
+            padding: 2rem;
+        }
+
+        /* Sections to group related content */
+        .section {
+            margin-bottom: 3rem;
+            background-color: rgba(255, 255, 255, 0.05); 
+            border-radius: 10px; 
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); 
+        }
+
+        .section h2 {
+            color: #cc0000; 
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Styling for action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap; 
+        }
+
+        .action-buttons button {
+            background-color: #cc0000;
+            color: white;
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effects */
+        }
+
+        .action-buttons button:hover {
+            background-color: #e60000; 
+            transform: scale(1.05); 
+        }
+
+        /* Table styling */
+        .admin-table {
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 1rem;
+            color: #fff;
+        }
+
+        .admin-table th, .admin-table td {
+            border: 1px solid #333; 
+            padding: 0.8rem;
+            text-align: center; 
+        }
+
+        .admin-table th {
+            background-color: #cc0000; 
+        }
+
+        /* Alternating row colors */
+        .admin-table tbody tr:nth-child(odd) {
+            background-color: #222;
+        }
+
+        .admin-table tbody tr:nth-child(even) {
+            background-color: #333;
+        }
+
+        form {
+            display: inline; /* Inline forms for buttons */
+        }
+
+        .no-items {
+            text-align: center;
+            color: #999; 
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed header with the admin panel title -->
+    <header>
+        <h1>Admin Panel</h1>
+    </header>
+    <!-- Main content container -->
+    <div class="container">
+        <!-- Section for managing users -->
+        <div class="section">
+            <h2>Manage Users</h2>
+            <!-- Table displays user data -->
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (users && users.length > 0) { %>
+                        <% users.forEach(user => { %>
+                            <!-- User details displayed in rows -->
+                            <tr>
+                                <td><%= user.user_id %></td>
+                                <td><%= user.name %></td>
+                                <td><%= user.email %></td>
+                                <td><%= user.password %></td>
+                                <td><%= user.created_at %></td>
+                                <td><%= user.updated_at %></td>
+                                <td>
+                                    <!-- Action buttons for delete and edit, where the edit takes you to the editUsers Page -->
+                                    <form action="/users/<%= user.user_id %>?_method=DELETE" method="POST">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                    <button onclick="window.location.href='/users/edit-form/<%= user.user_id %>'">Edit</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" class="no-items">No users found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section for managing reviews -->
+        <div class="section">
+            <h2>Manage Reviews</h2>
+            <!-- Table displays review data -->
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Car ID</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Date Posted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (reviews && reviews.length > 0) { %>
+                        <% reviews.forEach(review => { %>
+                            <!-- Review details displayed in rows -->
+                            <tr>
+                                <td><%= review.review_id %></td>
+                                <td><%= review.user_id %></td>
+                                <td><%= review.car_id %></td>
+                                <td><%= review.rating %></td>
+                                <td><%= review.comment %></td>
+                                <td><%= review.date_posted %></td>
+                                <td>
+                                     <!-- Action buttons for delete and edit, where the edit takes you to the editReviews Page -->
+                                    <form action="/reviews/<%= review.review_id %>?_method=DELETE" method="POST">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                    <button onclick="window.location.href='/reviews/edit-form/<%= review.review_id %>'">Edit</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="7" class="no-items">No reviews found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section for managing reviews -->
+        <div class="section">
+            <h2>Manage Hypercars</h2>
+            <!-- Table displays car data -->
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Model</th>
+                        <th>Brand</th>
+                        <th>Top Speed</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (cars && cars.length > 0) { %>
+                        <% cars.forEach(car => { %>
+                            <!-- Car details displayed in rows -->
+                            <tr>
+                                <td><%= car.car_id %></td>
+                                <td><%= car.model %></td>
+                                <td><%= car.brand %></td>
+                                <td><%= car.top_speed %></td>
+                                <td>
+                                    <!-- Action buttons for delete and edit, where the edit takes you to the editCars Page -->
+                                    <form action="/cars/<%= car.car_id %>?_method=DELETE" method="POST">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                    <button onclick="window.location.href='/cars/edit-form/<%= car.car_id %>'">Edit</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="no-items">No cars found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section for managing manufactuers -->
+        <div class="section">
+            <h2>Manage Manufacturers</h2>
+            <!-- Table displays manufacturer data -->
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th>Founded Year</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (manufacturers && manufacturers.length > 0) { %>
+                        <% manufacturers.forEach(manufacturer => { %>
+                            <!-- Manufacturer details displayed in rows -->
+                            <tr>
+                                <td><%= manufacturer.manufacturer_id %></td>
+                                <td><%= manufacturer.name %></td>
+                                <td><%= manufacturer.country %></td>
+                                <td><%= manufacturer.founded_year %></td>
+                                <td>
+                                     <!-- Action buttons for delete and edit, where the edit takes you to the editManufacturers Page -->
+                                    <form action="/manufacturers/<%= manufacturer.manufacturer_id %>?_method=DELETE" method="POST">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                    <button onclick="window.location.href='/manufacturers/edit-form/<%= manufacturer.manufacturer_id %>'">Edit</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="no-items">No manufacturers found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section for service center reviews -->
+        <div class="section">
+            <h2>Manage Service Centers</h2>
+            <!-- Table displays service center data -->
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Contact</th>
+                        <th>Manufacturer ID</th>
+                        <th>Services Offered</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (services && services.length > 0) { %>
+                        <% services.forEach(service => { %>
+                            <!-- Service center details displayed in rows -->
+                            <tr>
+                                <td><%= service.service_cent_id %></td>
+                                <td><%= service.name %></td>
+                                <td><%= service.location %></td>
+                                <td><%= service.contact_nb %></td>
+                                <td><%= service.manufacturer_id %></td>
+                                <td><%= service.services_offered %></td>
+                                <td>
+                                    <!-- Action buttons for delete and edit, where the edit takes you to the editServiceCenters Page -->
+                                    <form action="/service_centers/<%= service.service_cent_id %>?_method=DELETE" method="POST">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                    <button onclick="window.location.href='/service_centers/edit-form/<%= service.service_cent_id %>'">Edit</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="no-items">No service centers found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section for favorites reviews -->
+        <div class="section">
+            <h2>Manage Favorites</h2>
+            <!-- Table displays favorites data -->
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Favorites ID</th>
+                        <th>User ID</th>
+                        <th>Car ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (favorites && favorites.length > 0) { %>
+                        <% favorites.forEach(favorites => { %>
+                            <!-- Favorite details displayed in rows -->
+                            <tr>
+                                <td><%= favorites.favorites_id %></td>
+                                <td><%= favorites.user_id %></td>
+                                <td><%= favorites.car_id %></td>
+                                <td>
+                                    <!-- Action buttons for delete and edit, where the edit takes you to the editFavorites Page -->
+                                    <form action="/favorites/<%= favorites.favorites_id %>?_method=DELETE" method="POST">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                    <button onclick="window.location.href='/favorites/edit-form/<%= favorites.favorites_id %>'">Edit</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="no-items">No favorites found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Edit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+         /* General styles for the page layout, body, header, etc. */
+        body {
+            background-color: black;
+            color: #cc0000;
+        }
+
+        h1, h4 {
+            color: #cc0000; 
+        }
+
+        /* Styling for the card element */
+        .card {
+            background-color: #000; 
+            color: #fff; 
+        }
+
+        /* Styling for the card body */
+        .card-body {
+            background-color: #333; 
+            border-radius: 8px;
+        }
+
+        /* Label styling for form fields */
+        .form-group label {
+            color: #cc0000; 
+        }
+
+        /* Input field styling */
+        .form-control {
+            background-color: #222; 
+            color: #fff; 
+            border: 1px solid #cc0000; 
+        }
+
+        .form-control:focus {
+            background-color: #333;
+            border-color: #cc0000; 
+            box-shadow: none; 
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background-color: #cc0000; 
+            border-color: #cc0000; 
+        }
+
+        /* Button hover effect */
+        .btn-primary:hover {
+            background-color: #cc0000; 
+            border-color: #c12e2a; 
+        }
+
+        /* List styling for the car information */
+        ul {
+            list-style: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Edit Profile: <%= car.car_id %></h1>
+
+        <!-- Car Information Display Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>Car Information</h4>
+                <!-- List displaying car details -->
+                <ul>
+                    <li><b>Car Model:</b> <%= car.model %></li>
+                    <li><b>Brand:</b> <%= car.brand %></li>
+                    <li><b>Top Speed:</b> <%= car.top_speed %></li>
+                    <li><b>Horsepower:</b> <%= car.horsepower %></li>
+                    <li><b>Price:</b> <%= car.price %></li>
+                    <li><b>Image:</b> <%= car.images %></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Edit Car Form -->
+        <form action="/cars/update-car/<%= car.car_id %>" method="POST">
+            <!-- Car model input field -->
+            <div class="form-group">
+                <label for="model">Car Model</label>
+                <input type="text" id="model" name="model" class="form-control" placeholder="Enter Car Model" value="<%= car.model %>" required>
+            </div>
+
+            <!-- Brand input field -->
+            <div class="form-group">
+                <label for="brand">Brand</label>
+                <input type="text" id="brand" name="brand" class="form-control" placeholder="Enter Brand" value="<%= car.brand %>" required>
+            </div>
+
+            <!-- Top speed input field -->
+            <div class="form-group">
+                <label for="top_speed">Top Speed</label>
+                <input type="number" id="top_speed" name="top_speed" class="form-control" placeholder="Enter Top Speed" value="<%= car.top_speed %>" required>
+            </div>
+
+            <!-- Horsepower input field -->
+            <div class="form-group">
+                <label for="horsepower">Horsepower</label>
+                <input type="number" id="horsepower" name="horsepower" class="form-control" placeholder="Enter Horsepower" value="<%= car.horsepower %>" required>
+            </div>
+
+            <!-- Price input field -->
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="text" id="price" name="price" class="form-control" placeholder="Enter Price" value="<%= car.price %>" required>
+            </div>
+
+            <!-- Image input field -->
+            <div class="form-group">
+                <label for="images">Image</label>
+                <input type="text" id="images" name="images" class="form-control" placeholder="Enter Image URL" value="<%= car.images %>" required>
+            </div>
+
+            <!-- Submit button for saving changes -->
+            <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS for handling interactive components -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0Xn7RIF3kXov2+K7w0a+Y3hT6uY8URxx+VdCzXj7mVt8V+Xb" crossorigin="anonymous"></script>
+</body>
+
+</html>

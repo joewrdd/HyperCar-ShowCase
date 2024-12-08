@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HyperCar Showcase</title>
+    <style>
+        /* General styles for the page layout, body, header, footer, etc. */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a; 
+            color: #fff; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header section with logo and home button */
+        header {
+            background-color: #cc0000; 
+            padding: 2.7rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        header img {
+            height: 100px;
+            width: auto;
+            position: absolute;
+            top: 45%;
+            transform: translateY(-50%);
+            left: 20px;
+        }
+
+        /* Logo icon image */
+        .logo-image {
+            height: 100px;
+            width: auto;
+            position: absolute;
+            top: 63%; 
+            left: 20px; 
+        }
+
+        /* Home icon and its interaction style */
+        .home-icon {
+            position: fixed;
+            top: -6px;
+            right: -20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 110px;
+            background-color: transparent;
+            border-radius: 0%;
+            text-decoration: none;
+            box-shadow: none;
+        }
+
+        .home-icon img {
+            width: 80%;
+            height: auto;
+            display: block;
+        }
+
+        .home-icon .go-back-text {
+            color: black;
+            font-size: 14px;
+            margin-left: 20px;
+            margin-top: -20px;
+            font-weight: bold;
+            right: 20px;
+            top: -10px;
+        }
+
+        .home-icon:hover {
+            background-color: transparent;
+            transform: scale(1.1);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        /* Main content area */
+        main {
+            flex: 1;
+            margin-top: 80px;
+            padding: 0 1rem;
+        }
+
+        /* Footer section */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #333;
+            color: #bbb;
+            position: relative;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .manufacturer-btn {
+            display: inline-block;
+            margin-right: 1rem;
+        }
+
+        /* Button styles for manufacturers */
+        .manufacturer-btn button {
+            background-color: #cc0000;
+            color: #fff;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .manufacturer-btn button:hover {
+            transform: scale(1.05);
+        }
+
+        .servicecenter-btn {
+            display: inline-block;
+            margin-right: 1rem;
+        }
+
+        .servicecenter-btn button {
+            background-color: #cc0000;
+            color: #fff;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .servicecenter-btn button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Filters section (select and input fields) */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 1rem;
+        }
+
+        .filters select,
+        .filters input {
+            padding: 0.6rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #222;
+            color: #fff;
+        }
+
+        /* Car gallery display grid */
+        .car-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 1rem;
+            padding: 2rem 0;
+        }
+
+        .car-gallery a {
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+
+        /* Car card styles */
+        .car-card {
+            background: #cc0000;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.75);
+            transition: transform 0.3s ease;
+        }
+
+        .car-card:hover {
+            transform: scale(1.05);
+        }
+
+        .car-card img {
+            width: 100%;
+            height: auto;
+            max-width: 150px;
+            max-height: 100px;
+            border-radius: 8px;
+        }
+
+        .car-card h3 {
+            color: #fff;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .car-card p {
+            color: #ddd;
+            margin: 0.5rem 0;
+        }
+
+        /* No cars available message */
+        .no-cars {
+            text-align: center;
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 2rem 0;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        * {
+            box-sizing: inherit;
+        }
+    </style>
+    <script>
+        /* 
+        * Function to apply filters based on selected brand and speed range.
+        * The function filters the displayed car cards based on the criteria.
+        * 
+        * Parameters: None.
+        * 
+        * Returns: None. Modifies the visibility of car elements directly in the DOM.
+        */
+        let debounceTimer;
+        function applyFilters() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const brand = document.getElementById('brandFilter').value;
+                const minSpeed = document.getElementById('minSpeedFilter').value;
+                const maxSpeed = document.getElementById('maxSpeedFilter').value;
+
+                const cards = document.querySelectorAll('.car-element');
+                cards.forEach(card => {
+                    const carBrand = card.getAttribute('data-brand');
+                    const carSpeed = parseInt(card.getAttribute('data-speed'));
+                    const carPrice = parseFloat(card.getAttribute('data-price'));
+
+                    if (
+                        (brand === 'All' || carBrand === brand) &&
+                        (minSpeed === '' || carSpeed >= parseInt(minSpeed)) &&
+                        (maxSpeed === '' || carSpeed <= parseFloat(maxSpeed))
+                    ) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }, 500);
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <img src="/images/logo.png" alt="HyperCar Showcase Logo" class="logo-image"> <!-- Logo for the page -->
+        <!-- Home Icon linking back to the homepage -->
+        <a href="home" class="home-icon" title="Go to Homepage">
+            <img src="/images/homeicon.png" alt="Home" />
+        </a>
+    </header>
+
+    <main>
+         <!-- Filter options and buttons for viewing manufacturer and service center details -->
+        <div class="filters">
+            <a href="/manufacturers" class="manufacturer-btn">
+                <button>View Manufacturer Details</button>
+            </a>
+            <a href="/service_centers" class="servicecenter-btn">
+                <button>View Service Center Details</button>
+            </a>
+            <!-- Dropdown filter for brand selection -->
+            <select id="brandFilter" onchange="applyFilters()">
+                <option value="All">All Brands</option>
+                <% if (cars && cars.length > 0) {
+                    const brands = [...new Set(cars.map(car => car.brand))];
+                    brands.forEach(brand => { %>
+                        <option value="<%= brand %>"><%= brand %></option>
+                <% }) } %>
+            </select>
+            <!-- Inputs for minimum and maximum speed range -->
+            <input type="number" id="minSpeedFilter" placeholder="Min Speed (mph)" oninput="applyFilters()">
+            <input type="number" id="maxSpeedFilter" placeholder="Max Speed (mph)" oninput="applyFilters()">
+        </div>
+        
+        <!-- Car gallery displaying each car's details -->
+        <section class="car-gallery">
+            <% if (cars && cars.length > 0) { %>
+                <% cars.forEach(car => {
+                    const carReviews = reviews.filter(review => review.car_id === car.car_id);
+                    console.log(carReviews);
+                    const totalReviews = carReviews.length;
+                    const averageRating = totalReviews > 0
+                        ? (carReviews.reduce((sum, review) => sum + parseInt(review.rating), 0) / (totalReviews)).toFixed(2)
+                        : 'No ratings';
+                %>
+                <!-- Display car card with dynamic data -->
+                    <a class="car-element"   href="/car/<%= car.car_id %>"
+                             data-brand="<%= car.brand %>"
+                             data-speed="<%= car.top_speed %>"
+                             data-price="<%= car.price %>">
+                        <div class="car-card"  id="car-card">
+                             <img src="<%= car.imagePath %>" alt="<%= car.model %>" onerror="this.src='/images/default.png'">
+                            <h3><%= car.model %></h3>
+                            <p><strong>Brand:</strong> <%= car.brand %></p>
+                            <p><strong>Price:</strong> <%= car.price %></p>
+                            <p><strong>Top Speed:</strong> <%= car.top_speed %> mph</p>
+                            <p><strong>Horsepower:</strong> <%= car.horsepower %> hp</p>
+                            <p><strong>Rating:</strong> <%= totalReviews > 0 ? `${averageRating} / 5` : 'No ratings' %></p>
+                        </div>
+                    </a>
+                <% }); %>
+            <% } else { %>
+                <p class="no-cars">No cars available at the moment.</p>
+            <% } %>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Footer section with copyright -->
+        <p>&copy; 2024 HyperCar Showcase. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta information and title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - HyperCar Showcase</title>
+    <style>
+        /* General styles for the page */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #cc0000;
+            padding: 1.3rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header img {
+            height: 100px;
+            width: auto;
+            position: absolute;
+            top: 63%;
+            transform: translateY(-50%);
+            left: 20px;
+        }
+
+        /* Search bar styling */
+        .search-bar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .search-bar input {
+            padding: 0.8rem;
+            font-size: 1rem;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 400px;
+            border: 1px solid #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input:focus {
+            border-color: #e60000;
+            outline: none;
+        }
+
+        /* Search box dropdown styling */
+        .search-box {
+            width: 80%;
+            max-width: 400px;
+            display: none;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            position: absolute;
+            z-index: 1;
+            top: 3rem;
+        }
+
+        .search-box ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .search-box li {
+            padding: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-box li:hover {
+            background-color: #cc0000;
+        }
+
+        /* Authentication buttons styles */
+        .auth-buttons {
+            display: flex;
+            margin-right: 38px;
+            gap: 1rem;
+        }
+
+        .auth-buttons a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0.5rem 1.2rem;
+            background-color: #fff;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .auth-buttons a:hover {
+            background-color: #cc0000;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Container for main content */
+        .container {
+            margin-top: 8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            padding: 3rem 1rem;
+        }
+
+        /* Buttons section */
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .buttons button {
+            background-color: #cc0000;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            width: 250px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .buttons button:hover {
+            background-color: #e60000;
+            transform: scale(1.05);
+        }
+
+        /* Welcome message styles */
+        .welcome-message {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 3rem 0;
+            max-width: 80%;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Background styles with animation */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            animation: changeBackground 10s infinite;
+        }
+
+        /* Keyframes for background change animation */
+        @keyframes changeBackground {
+            0% { background-image: url('/images/car1.jpg'); }
+            25% { background-image: url('/images/car2.jpg'); }
+            50% { background-image: url('/images/car3.jpg'); }
+            75% { background-image: url('/images/car4.jpg'); }
+            100% { background-image: url('/images/car1.jpg'); }
+        }
+
+        /* Responsive design for mobile screens */
+        @media (max-width: 768px) {
+            .buttons button {
+                width: 80%;
+            }
+            .search-bar input {
+                width: 100%;
+            }
+        }
+    </style>
+    <script>
+        // Array of car objects for the search feature to work systemically and easily 
+        let cars = [
+            { car_id: 1, model: "370z Nismo", brand: "Nissan", price: "$48,599", top_speed: 250, horsepower: 350 },
+            { car_id: 2, model: "CLS AMG 63s", brand: "Mercedes", price: "$93,500", top_speed: 300, horsepower: 577 },
+            { car_id: 3, model: "Agera RS", brand: "Koenigsegg", price: "$2,500,000", top_speed: 447, horsepower: 1160 },
+            { car_id: 5, model: "C300", brand: "Mercedes", price: "$59,995", top_speed: 280, horsepower: 279 },
+            { car_id: 6, model: "Huracan STO", brand: "Lamborghini", price: "$334,395", top_speed: 310, horsepower: 640 },
+            { car_id: 7, model: "R35 GTR Nismo", brand: "Nissan", price: "$221,090", top_speed: 315, horsepower: 592 },
+            { car_id: 8, model: "Skyline R34", brand: "Nissan", price: "$151,999", top_speed: 240, horsepower: "328" },
+            { car_id: 9, model: "M5 CS", brand: "BMW", price: "$152,999", top_speed: 333, horsepower: 627 }
+        ]; 
+
+        /**
+        * Filters the cars based on the input value from the search bar.
+        * 
+        * @param {Event} event - The event triggered by the user typing in the search bar.
+        * @returns {void} - This function does not return a value. It updates the search results on the page.
+        */
+        function filterCars(event) {
+            const query = event.target.value.toLowerCase();
+            const matchingCars = cars.filter(car => car.model.toLowerCase().includes(query) ||
+             car.brand.toLowerCase().includes(query));
+
+            const searchBox = document.getElementById('searchBox');
+            searchBox.style.display = query ? 'block' : 'none';
+
+            const searchList = searchBox.querySelector('ul');
+            searchList.innerHTML = '';
+            matchingCars.forEach(car => {
+                const li = document.createElement('li');
+                li.textContent = car.model;
+                li.onclick = function () {
+                    window.location.href = `/car/${car.car_id}`;
+                };
+                searchList.appendChild(li);
+            });
+        }
+
+        /**
+        * Hides the search box when the user clicks outside of the search input or search box.
+        * 
+        * @param {Event} event - The event triggered by a click anywhere on the document.
+        * @returns {void} - This function does not return a value. It updates the visibility of the search box.
+        */
+        document.addEventListener('click', function (event) {
+        const searchBox = document.getElementById('searchBox');
+        const searchInput = document.getElementById('searchInput');
+
+        if (!searchBox.contains(event.target) && event.target !== searchInput) {
+            searchBox.style.display = 'none';
+        }
+       });
+    
+       let isAuthenticated = false;
+       let token = localStorage.getItem("auth_token");
+       if(token){
+        isAuthenticated = true;
+       }
+
+    </script>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <img src="/images/logo.png" alt="HyperCar Showcase Logo">
+        <!-- Search Bar Section -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search..." oninput="filterCars(event)">
+        <div id="searchBox" class="search-box">
+            <ul></ul>
+        </div>
+    </div>
+    <!-- Authentication Buttons -->
+    <div class="auth-buttons">
+        <% if (isAuthenticated) { %>
+            <a href="/logout">Logout</a>
+        <% } else { %>
+            <a href="/login">Login</a>
+            <a href="/signup">Sign Up</a>
+        <% } %>
+    </div>
+    </header>
+
+    <div class="container">
+        <div class="buttons">
+            <button onclick="window.location.href='/dashboard'">Go to Dashboard</button>
+            <button onclick="window.location.href='/carcomparison'">Compare Cars</button>
+            <button onclick="window.location.href='/userfavorites'">Favorites</button>
+            <button onclick="window.location.href='/analytics'">Car Model Analytics</button>
+            <button onclick="window.location.href='/aboutus'">About Us</button>
+            <button onclick="window.location.href='/settings'">Settings</button>
+        </div>
+
+        <div class="welcome-message">
+            <p>Welcome to HyperCar Showcase Club</p>
+        </div>
+    </div>
+    </div>
+    <div class="background"></div>
+</body>
+</html> 

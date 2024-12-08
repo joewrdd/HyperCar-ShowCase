@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Edit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        /* Custom Red, Black, and White Theme */
+        body {
+            background-color: black;
+            color: #cc0000;
+        }
+
+        h1, h4 {
+            color: #cc0000; /* Red */
+        }
+
+        .card {
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+        }
+
+        .card-body {
+            background-color: #333; /* Dark grey background */
+            border-radius: 8px;
+        }
+
+        .form-group label {
+            color: #cc0000; /* Red */
+        }
+
+        .form-control {
+            background-color: #222; /* Dark background */
+            color: #fff; /* White text */
+            border: 1px solid #cc0000; /* Red border */
+        }
+
+        .form-control:focus {
+            background-color: #333; /* Dark grey when focused */
+            border-color: #cc0000; /* Red border when focused */
+            box-shadow: none; /* Remove shadow */
+        }
+
+        .btn-primary {
+            background-color: #cc0000; /* Red button */
+            border-color: #cc0000; /* Red border */
+        }
+
+        .btn-primary:hover {
+            background-color: #cc0000; /* Darker red on hover */
+            border-color: #c12e2a; /* Darker red border on hover */
+        }
+
+        ul {
+            list-style: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Edit Profile: <%= service_centers.service_cent_id %></h1>
+
+        <!-- Display Service Center details -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>Service Centers Information</h4>
+                <ul>
+                    <li><b>Service Center Name:</b> <%= service_centers.name %></li>
+                    <li><b>Location:</b> <%= service_centers.location %></li>
+                    <li><b>Contact Number:</b> <%= service_centers.contact_nb %></li>
+                    <li><b>Manufacturer ID:</b> <%= service_centers.manufacturer_id %></li>
+                    <li><b>Services Offered:</b> <%= service_centers.services_offered %></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Edit Service Center Form -->
+        <form action="/service_centers/update-service-center/<%= service_centers.service_cent_id %>" method="POST">
+            <div class="form-group">
+                <label for="name">Service Center Name</label>
+                <input type="text" id="name" name="name" class="form-control" 
+                       placeholder="Enter Service Center Name" value="<%= service_centers.name %>" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" class="form-control" 
+                       placeholder="Enter Location" value="<%= service_centers.location %>" required>
+            </div>
+            <div class="form-group">
+                <label for="contact_nb">Contact Number</label>
+                <input type="text" id="contact_nb" name="contact_nb" class="form-control" 
+                       placeholder="Enter Contact Number" value="<%= service_centers.contact_nb %>" required>
+            </div>
+            <div class="form-group">
+                <label for="manufacturer_id">Manufacturer ID</label>
+                <input type="text" id="manufacturer_id" name="manufacturer_id" class="form-control" 
+                       placeholder="Enter Manufacturer ID" value="<%= service_centers.manufacturer_id %>" required>
+            </div>
+            <div class="form-group">
+                <label for="services_offered">Services Offered</label>
+                <textarea id="services_offered" name="services_offered" class="form-control" 
+                          placeholder="Enter Services Offered" required><%= service_centers.services_offered %></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0Xn7RIF3kXov2+K7w0a+Y3hT6uY8URxx+VdCzXj7mVt8V+Xb" crossorigin="anonymous"></script>
+</body>
+</html>
