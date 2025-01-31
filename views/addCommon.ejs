@@ -1,0 +1,229 @@
+<style>
+  .add-container {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .form-group {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideInRight 0.5s ease forwards;
+  }
+
+  .form-group:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+  .form-group:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+  .form-group:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+  .form-group:nth-child(4) {
+    animation-delay: 0.5s;
+  }
+  .form-group:nth-child(5) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes slideInRight {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .form-control {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+  }
+
+  .form-control:focus {
+    transform: translateY(-2px);
+    border-color: #cc0000;
+    box-shadow: 0 10px 20px rgba(204, 0, 0, 0.2);
+  }
+
+  .add-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .add-btn:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+  }
+
+  .add-btn:hover:before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .add-header {
+    position: relative;
+    display: inline-block;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards 0.2s;
+  }
+
+  .add-header:after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #cc0000;
+    animation: expandWidth 0.8s ease forwards 0.5s;
+  }
+
+  @keyframes expandWidth {
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Image preview animation */
+  .image-preview {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .image-preview.show {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Success message animation */
+  .success-message {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideDown 0.5s ease forwards;
+  }
+
+  @keyframes slideDown {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Error message animation */
+  .error-message {
+    opacity: 0;
+    animation: shake 0.5s ease-in-out forwards;
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20%,
+    60% {
+      transform: translateX(-5px);
+    }
+    40%,
+    80% {
+      transform: translateX(5px);
+    }
+  }
+</style>
+
+<script>
+  // Form validation animation
+  document.querySelector("form").addEventListener("submit", function (e) {
+    const button = this.querySelector("button[type='submit']");
+    button.innerHTML = '<span class="loading">Adding...</span>';
+    button.style.opacity = "0.8";
+  });
+
+  // Input field animations
+  document.querySelectorAll(".form-control").forEach((input) => {
+    input.addEventListener("focus", function () {
+      this.closest(".form-group").style.transform = "translateY(-5px)";
+    });
+
+    input.addEventListener("blur", function () {
+      this.closest(".form-group").style.transform = "translateY(0)";
+    });
+  });
+
+  // Image preview animation
+  const imageInput = document.querySelector('input[type="file"]');
+  if (imageInput) {
+    imageInput.addEventListener("change", function (e) {
+      const preview = document.querySelector(".image-preview");
+      if (preview) {
+        if (e.target.files && e.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.classList.add("show");
+          };
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      }
+    });
+  }
+
+  // Animate elements on scroll
+  const observerOptions = {
+    threshold: 0.1,
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = "running";
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll(".form-group").forEach((item) => {
+    item.style.animationPlayState = "paused";
+    observer.observe(item);
+  });
+
+  // Success message handler
+  function showSuccess(message) {
+    const successDiv = document.createElement("div");
+    successDiv.className = "success-message";
+    successDiv.textContent = message;
+    document.querySelector(".add-container").appendChild(successDiv);
+    setTimeout(() => successDiv.remove(), 3000);
+  }
+
+  // Error message handler
+  function showError(message) {
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "error-message";
+    errorDiv.textContent = message;
+    document.querySelector(".add-container").appendChild(errorDiv);
+    setTimeout(() => errorDiv.remove(), 3000);
+  }
+</script>

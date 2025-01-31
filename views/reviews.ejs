@@ -1,0 +1,129 @@
+/* Add these styles after existing styles */
+<style>
+  /* Review card animations */
+  .review-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .reviews-container > div:nth-child(odd) {
+    animation-delay: 0.2s;
+  }
+
+  .reviews-container > div:nth-child(even) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Star rating animation */
+  .star-rating {
+    display: inline-block;
+  }
+
+  .star-rating span {
+    opacity: 0;
+    animation: starPop 0.3s ease forwards;
+  }
+
+  .star-rating span:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .star-rating span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .star-rating span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .star-rating span:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  .star-rating span:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+
+  @keyframes starPop {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Review text reveal */
+  .review-text {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideInRight 0.5s ease forwards;
+  }
+
+  @keyframes slideInRight {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Add review button animation */
+  .add-review-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .add-review-btn:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+  }
+
+  .add-review-btn:hover:before {
+    width: 300px;
+    height: 300px;
+  }
+</style>
+
+<!-- Add this script before closing body tag -->
+<script>
+  // Animate elements on scroll
+  const observerOptions = {
+    threshold: 0.1,
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = "running";
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll(".review-card").forEach((item) => {
+    item.style.animationPlayState = "paused";
+    observer.observe(item);
+  });
+
+  // Star rating animation
+  document.querySelectorAll(".star-rating").forEach((rating) => {
+    const stars = rating.querySelectorAll("span");
+    stars.forEach((star, index) => {
+      star.style.animationDelay = `${index * 0.1}s`;
+    });
+  });
+</script>

@@ -1,136 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Meta tags for character set and responsive design -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Service Center Details - HyperCar Showcase</title>
 
     <!-- CSS styles for the page -->
     <style>
-        /* General body styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a1a; 
-            color: #fff; 
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+      /* General body styling */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #1a1a1a;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
 
-        /* Header styling */
-        header {
-            background-color: #cc0000; 
-            padding: 2.3rem 2rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-        }
+      /* Header styling */
+      header {
+        background-color: #cc0000;
+        padding: 2.3rem 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        animation: slideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-        /* Logo inside the header */
-        header img {
-            height: 100px;
-            width: auto;
-            position: absolute;
-            top: 63%;
-            transform: translateY(-50%);
-            left: 20px;
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
         }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
 
-        /* Return Button */
-        .back-button {
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #fff;
-            background-color: #cc0000;
-            padding: 10px 15px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
+      /* Logo inside the header */
+      header img {
+        height: 100px;
+        width: auto;
+        position: absolute;
+        top: 63%;
+        transform: translateY(-50%);
+        left: 20px;
+      }
 
-        .back-button:hover {
-            background-color: #990000;
-        }
+      /* Return Button */
+      .back-button {
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #fff;
+        background-color: #cc0000;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-weight: bold;
+      }
 
-        main {
-            flex: 1;
-            margin-top: 80px;
-            padding: 0 2rem;
-        }
+      .back-button:hover {
+        background-color: #990000;
+      }
 
-        /* Service Center details section styling */
-        .service-center-details {
-            margin-top: 2rem;
-            padding: 2rem;
-            background-color: #333;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.75);
-        }
+      main {
+        flex: 1;
+        margin-top: 80px;
+        padding: 0 2rem;
+      }
 
-        .service-center-details h1 {
-            color: #fff;
-        }
+      /* Service Center details section styling */
+      .service-center-details {
+        margin-top: 2rem;
+        padding: 2rem;
+        background-color: #333;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.75);
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        position: relative;
+        overflow: hidden;
+      }
 
-        .service-center-details p {
-            color: #ddd;
-            font-size: 1.1rem;
-            margin: 0.5rem 0;
-        }
+      .service-center-details h1 {
+        color: #fff;
+      }
 
-        /* Footer Styles */
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background: #333;
-            color: #ccc;
-            margin-top: 2rem;
-        }
+      .service-center-details p {
+        color: #ddd;
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+      }
 
-        footer a {
-            color: #ff0000;
-            text-decoration: none;
-        }
+      /* Footer Styles */
+      footer {
+        text-align: center;
+        padding: 1rem;
+        background: #333;
+        color: #ccc;
+        margin-top: 2rem;
+      }
 
-        footer a:hover {
-            text-decoration: underline;
+      footer a {
+        color: #ff0000;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Service center card animations */
+      .service_centers > div:nth-child(odd) {
+        animation-delay: 0.2s;
+      }
+
+      .service_centers > div:nth-child(even) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Text reveal animation */
+      .service-center-details h2,
+      .service-center-details p {
+        opacity: 0;
+        transform: translateX(-20px);
+        animation: slideInRight 0.5s ease forwards;
+      }
+
+      .service-center-details h2 {
+        animation-delay: 0.3s;
+      }
+      .service-center-details p:nth-of-type(1) {
+        animation-delay: 0.4s;
+      }
+      .service-center-details p:nth-of-type(2) {
+        animation-delay: 0.5s;
+      }
+      .service-center-details p:nth-of-type(3) {
+        animation-delay: 0.6s;
+      }
+
+      @keyframes slideInRight {
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Card hover effects */
+      .service-center-details {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .service-center-details:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+        background: linear-gradient(145deg, #333, #444);
+      }
+
+      /* Highlight effect on hover */
+      .service-center-details:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: #cc0000;
+        transform: scaleY(0);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: bottom;
+      }
+
+      .service-center-details:hover:before {
+        transform: scaleY(1);
+      }
+
+      /* Services offered highlight */
+      .service-center-details p:last-child {
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .service-center-details p:last-child:before {
+        content: "★";
+        position: absolute;
+        left: 0;
+        color: #cc0000;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Header containing the logo -->
     <header>
-        <img src="/images/logo.png" alt="HyperCar Showcase Logo">
+      <img src="/images/logo.png" alt="HyperCar Showcase Logo" />
     </header>
     <main>
-        <section class="service_centers">
-            <h1>Service Centers</h1>
-            <!-- Manufaturer Details In Rows Dynamically -->
-            <% serviceCenters.forEach(serviceCenters => { %>
-                <div class="service-center-details">
-                    <h2><%= serviceCenters.name %></h2>
-                    <p><strong>Location:</strong> <%= serviceCenters.location %></p>
-                    <p><strong>Contact Number:</strong> <%= serviceCenters.contact_nb %></p>
-                    <p><strong>Services Offered:</strong> <%= serviceCenters.services_offered %></p>
-                </div>
-            <% }); %>
-        </section>
+      <section class="service_centers">
+        <h1>Service Centers</h1>
+        <!-- Manufaturer Details In Rows Dynamically -->
+        <% serviceCenters.forEach(serviceCenters => { %>
+        <div class="service-center-details">
+          <h2><%= serviceCenters.name %></h2>
+          <p><strong>Location:</strong> <%= serviceCenters.location %></p>
+          <p>
+            <strong>Contact Number:</strong> <%= serviceCenters.contact_nb %>
+          </p>
+          <p>
+            <strong>Services Offered:</strong> <%=
+            serviceCenters.services_offered %>
+          </p>
+        </div>
+        <% }); %>
+      </section>
     </main>
 
     <!-- Footer Section with Back To Dashoard Return Route -->
     <footer>
-        <p>&copy; 2024 HyperCar Showcase. All Rights Reserved <a href="dashboard">Back to Dashboard</a></p>
+      <p>
+        &copy; 2024 HyperCar Showcase. All Rights Reserved
+        <a href="dashboard">Back to Dashboard</a>
+      </p>
     </footer>
-</body>
 
+    <!-- Add this script before closing body tag -->
+    <script>
+      // Animate items on scroll
+      const observerOptions = {
+        threshold: 0.1,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = "running";
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".service-center-details").forEach((item) => {
+        item.style.animationPlayState = "paused";
+        observer.observe(item);
+      });
+    </script>
+  </body>
 </html>

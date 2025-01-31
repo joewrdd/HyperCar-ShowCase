@@ -1,367 +1,525 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Meta tags for character set and responsive design -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Car Details - HyperCar Showcase</title>
 
-     <!-- CSS styles for the page -->
+    <!-- CSS styles for the page -->
     <style>
-        /* General body styling */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #111;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+      /* General body styling */
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #111;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+      }
 
-        /* Header styling */
-        header {
-            background-color: #cc0000;
-            padding: 2.6rem 2rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 10;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+      /* Header styling */
+      header {
+        background-color: #cc0000;
+        padding: 2.6rem 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-        /* Logo inside the header */
-        header img {
-            height: 100px;
-            width: auto;
-            position: absolute;
-            top: 65%;
-            left: 20px;
-            transform: translateY(-50%);
-        }
+      /* Logo inside the header */
+      header img {
+        height: 100px;
+        width: auto;
+        position: absolute;
+        top: 65%;
+        left: 20px;
+        transform: translateY(-50%);
+      }
 
-        /* Car details section styling */   
-        .car-details {
-            margin-top: 8rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 3rem 1rem;
-            justify-content: center;
-            flex-grow: 1;
-        }
+      /* Car details section styling */
+      .car-details {
+        margin-top: 8rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 3rem 1rem;
+        justify-content: center;
+        flex-grow: 1;
+      }
 
-        /* Styling for individual car card */
-        .car-card {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+      /* Styling for individual car card */
+      .car-card {
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s ease forwards;
+      }
 
-        /* Car image inside the card */
-        .car-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            object-fit: cover;
-        }
+      /* Car image inside the card */
+      .car-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        object-fit: cover;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-        /* Title and header styles */
-        h1 {
-            font-size: 2.8rem;
-            margin-top: 1.5rem;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-        }
+      /* Title and header styles */
+      h1 {
+        font-size: 2.8rem;
+        margin-top: 1.5rem;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      }
 
-        h2 {
-            font-size: 2.2rem;
-            margin-top: 2.5rem;
-            color: #e60000;
-            text-transform: uppercase;
-        }
+      h2 {
+        font-size: 2.2rem;
+        margin-top: 2.5rem;
+        color: #e60000;
+        text-transform: uppercase;
+      }
 
-         /* Styling for the specifications list */
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            color: #bbb;
-            text-align: left;
-            width: 100%;
-        }
+      /* Styling for the specifications list */
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        color: #bbb;
+        text-align: left;
+        width: 100%;
+      }
 
-        ul li {
-            font-size: 1.4rem;
-            margin: 1rem 0;
-            line-height: 1.6;
-        }
+      ul li {
+        font-size: 1.4rem;
+        margin: 1rem 0;
+        line-height: 1.6;
+        opacity: 0;
+        transform: translateX(-20px);
+        animation: slideInRight 0.5s ease forwards;
+      }
 
-        /* User reviews section */
-        .user-reviews {
-            margin-top: 2.5rem;
-            width: 100%;
-            max-width: 700px;
-        }
+      ul li:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      ul li:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+      ul li:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      ul li:nth-child(4) {
+        animation-delay: 0.5s;
+      }
 
-        .user-reviews ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
+      @keyframes slideInRight {
+        to {
+          opacity: 1;
+          transform: translateX(0);
         }
+      }
 
-        .user-reviews li {
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 1.5rem;
-            margin: 1.2rem 0;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-        }
+      /* User reviews section */
+      .user-reviews {
+        margin-top: 2.5rem;
+        width: 100%;
+        max-width: 700px;
+      }
 
-        .user-reviews li p {
-            margin: 0.5rem 0;
-            font-size: 1.2rem;
-        }
+      .user-reviews ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
 
-        .rating-stars {
-            color: #ffcc00;
-        }
+      .user-reviews li {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 1.5rem;
+        margin: 1.2rem 0;
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.5s ease forwards;
+      }
 
-        .add-review {
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 2.5rem;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 700px;
-            margin-top: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+      .user-reviews li:nth-child(odd) {
+        animation-delay: 0.2s;
+      }
 
-        /* Form group inside add review section */
-        .add-review .form-group {
-            margin-bottom: 1.8rem;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+      .user-reviews li:nth-child(even) {
+        animation-delay: 0.4s;
+      }
 
-         /* Label and input fields styling for review */
-        .add-review label {
-            font-size: 1.3rem;
-            color: #bbb;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
+      .user-reviews li p {
+        margin: 0.5rem 0;
+        font-size: 1.2rem;
+      }
 
-        .add-review select,
-        .add-review textarea {
-            width: 100%;
-            padding: 1.2rem;
-            font-size: 1.2rem;
-            border-radius: 12px;
-            border: 1px solid #ccc;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ccc;
-            margin-top: 0.5rem;
-            box-sizing: border-box;
-        }
+      .rating-stars {
+        color: #ffcc00;
+        display: inline-block;
+        position: relative;
+      }
 
-        .add-review textarea {
-            resize: vertical;
-            min-height: 160px;
-        }
+      .rating-stars:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transform: translateX(-100%);
+        animation: shimmer 2s infinite;
+      }
 
-         /* Button styling for submitting review */
-        .add-review button {
-            background-color: #cc0000;
-            color: white;
-            padding: 1.2rem 2.5rem;
-            font-size: 1.3rem;
-            border: none;
-            border-radius: 50px;
-            width: 100%;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            margin-top: 1.5rem;
+      @keyframes shimmer {
+        100% {
+          transform: translateX(100%);
         }
+      }
 
-        /* Footer styling */
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: #111;
-            color: #bbb;
-            position: relative;
-            width: 100%;
-            margin-top: auto;
-        }
+      .add-review {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 2.5rem;
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        max-width: 700px;
+        margin-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s ease 0.5s forwards;
+      }
 
-        footer a {
-            color: #ff0000;
-            text-decoration: none;
-        }
+      /* Form group inside add review section */
+      .add-review .form-group {
+        margin-bottom: 1.8rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-        footer a:hover {
-            text-decoration: underline;
+      /* Label and input fields styling for review */
+      .add-review label {
+        font-size: 1.3rem;
+        color: #bbb;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .add-review select,
+      .add-review textarea {
+        width: 100%;
+        padding: 1.2rem;
+        font-size: 1.2rem;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #ccc;
+        margin-top: 0.5rem;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+      }
+
+      .add-review textarea {
+        resize: vertical;
+        min-height: 160px;
+      }
+
+      /* Button styling for submitting review */
+      .add-review button {
+        background-color: #cc0000;
+        color: white;
+        padding: 1.2rem 2.5rem;
+        font-size: 1.3rem;
+        border: none;
+        border-radius: 50px;
+        width: 100%;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        margin-top: 1.5rem;
+      }
+
+      /* Footer styling */
+      footer {
+        text-align: center;
+        padding: 1.5rem;
+        background-color: #111;
+        color: #bbb;
+        position: relative;
+        width: 100%;
+        margin-top: auto;
+      }
+
+      footer a {
+        color: #ff0000;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Enhanced card animations */
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
+
+      /* Improved image hover effect */
+      .car-card:hover img {
+        transform: scale(1.05);
+      }
+
+      /* Enhanced rating stars animation */
+      .rating-stars {
+        display: inline-block;
+        position: relative;
+      }
+
+      .rating-stars:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transform: translateX(-100%);
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Add to favorites button animation */
+      .favorite-btn {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .favorite-btn:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease;
+      }
+
+      .favorite-btn:hover:before {
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Review form animations */
+      .add-review select:focus,
+      .add-review textarea:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(204, 0, 0, 0.2);
+      }
     </style>
-</head>
-<body>
-
-     <!-- Header containing the logo -->
+  </head>
+  <body>
+    <!-- Header containing the logo -->
     <header>
-        <img src="/images/logo.png" alt="HyperCar Showcase Logo">
+      <img src="/images/logo.png" alt="HyperCar Showcase Logo" />
     </header>
 
-     <!-- Main section displaying car details -->
+    <!-- Main section displaying car details -->
     <div class="car-details">
-         <!-- Car information card -->
-        <div class="car-card">
-            <img src="<%= car.images %>" alt="<%= car.model %> Images">
-            <h1><%= car.model %></h1>
-            <h2>Specifications</h2>
-            <ul>
-                <li><strong>Brand:</strong> <%= car.brand %></li>
-                <li><strong>Price:</strong> <%= car.price %></li>
-                <li><strong>Top Speed:</strong> <%= car.top_speed %></li>
-                <li><strong>Horsepower:</strong> <%= car.horsepower %></li>
-            </ul>
-            <!-- Add to favorites form -->
-            <form id="favorite-form">
-                <input type="hidden" name="user_id" value="<%= user.id %>"> 
-                <input type="hidden" name="car_id" value="<%= car.car_id %>"> 
-                <button type="button" class="favorite-btn">Add to Favorites</button>
-            </form>
+      <!-- Car information card -->
+      <div class="car-card">
+        <img src="<%= car.images %>" alt="<%= car.model %> Images" />
+        <h1><%= car.model %></h1>
+        <h2>Specifications</h2>
+        <ul>
+          <li><strong>Brand:</strong> <%= car.brand %></li>
+          <li><strong>Price:</strong> <%= car.price %></li>
+          <li><strong>Top Speed:</strong> <%= car.top_speed %></li>
+          <li><strong>Horsepower:</strong> <%= car.horsepower %></li>
+        </ul>
+        <!-- Add to favorites form -->
+        <form id="favorite-form">
+          <input type="hidden" name="user_id" value="<%= user.id %>" />
+          <input type="hidden" name="car_id" value="<%= car.car_id %>" />
+          <button type="button" class="favorite-btn">Add to Favorites</button>
+        </form>
 
-             <!-- JavaScript to handle "Add to Favorites" functionality -->
-            <script>
-                document.querySelector('#favorite-form .favorite-btn').addEventListener('click', function () {
-                    const form = document.getElementById('favorite-form');
-                    const userId = parseInt(form.querySelector('input[name="user_id"]').value, 10);
-                    const carId = parseInt(form.querySelector('input[name="car_id"]').value, 10);
+        <!-- JavaScript to handle "Add to Favorites" functionality -->
+        <script>
+          document
+            .querySelector("#favorite-form .favorite-btn")
+            .addEventListener("click", function () {
+              const form = document.getElementById("favorite-form");
+              const userId = parseInt(
+                form.querySelector('input[name="user_id"]').value,
+                10
+              );
+              const carId = parseInt(
+                form.querySelector('input[name="car_id"]').value,
+                10
+              );
 
-                    if (isNaN(userId) || isNaN(carId)) {
-                        alert('Invalid user or car ID. Please try again.');
-                        return;
-                    }
+              if (isNaN(userId) || isNaN(carId)) {
+                alert("Invalid user or car ID. Please try again.");
+                return;
+              }
 
-                    const payload = { user_id: userId, car_id: carId };
+              const payload = { user_id: userId, car_id: carId };
 
-                    fetch('/favorites', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(payload),
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            showCustomMessage('Added To Favorites!');
-                        } else {
-                            response.json().then(data => {
-                                console.error('Server error:', data);
-                                showCustomMessage('Car Already Added To Favorites.');
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Network error:', error);
-                        showCustomMessage('An error occurred. Please try again later.');
+              fetch("/favorites", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+              })
+                .then((response) => {
+                  if (response.ok) {
+                    showCustomMessage("Added To Favorites!");
+                  } else {
+                    response.json().then((data) => {
+                      console.error("Server error:", data);
+                      showCustomMessage("Car Already Added To Favorites.");
                     });
+                  }
+                })
+                .catch((error) => {
+                  console.error("Network error:", error);
+                  showCustomMessage(
+                    "An error occurred. Please try again later."
+                  );
                 });
+            });
 
-                function showCustomMessage(message) {
-                    const messageElement = document.createElement('div');
-                    messageElement.textContent = message;
-                    messageElement.style.position = 'fixed';
-                    messageElement.style.top = '20px';
-                    messageElement.style.left = '50%';
-                    messageElement.style.transform = 'translateX(-50%)';
-                    messageElement.style.backgroundColor = '#333';
-                    messageElement.style.color = 'white';
-                    messageElement.style.padding = '10px 20px';
-                    messageElement.style.borderRadius = '5px';
-                    messageElement.style.zIndex = '1000';
-                    document.body.appendChild(messageElement);
+          function showCustomMessage(message) {
+            const messageElement = document.createElement("div");
+            messageElement.textContent = message;
+            messageElement.style.position = "fixed";
+            messageElement.style.top = "20px";
+            messageElement.style.left = "50%";
+            messageElement.style.transform = "translateX(-50%)";
+            messageElement.style.backgroundColor = "#333";
+            messageElement.style.color = "white";
+            messageElement.style.padding = "10px 20px";
+            messageElement.style.borderRadius = "5px";
+            messageElement.style.zIndex = "1000";
+            document.body.appendChild(messageElement);
 
-                setTimeout(() => {
-                    document.body.removeChild(messageElement);
-                 }, 3000);
-            }
-            </script>
-        </div>
+            setTimeout(() => {
+              document.body.removeChild(messageElement);
+            }, 3000);
+          }
+        </script>
+      </div>
 
-        <!-- User reviews section -->
-        <div class="user-reviews">
-            <h2>User Reviews</h2>
-            <ul>
-                <!-- Loop through reviews and display them -->
-                <% if (reviews && reviews.length > 0) { %>
-                    <% reviews.forEach(function(review) { %>
-                        <li>
-                            <p><strong><%= review.user_name %>:</strong> <%= review.comment %></p>
-                            <div class="rating-stars">
-                                <% for (let i = 0; i < review.rating; i++) { %>
-                                    &#9733;
-                                <% } %>
-                            </div>
-                            <p><small>Posted on: <%= new Date(review.date_posted).toLocaleDateString() %></small></p>
-                        </li>
-                    <% }); %>
-                <% } else { %>
-                    <li>No reviews available yet.</li>
-                <% } %>
-            </ul>
-        </div>
+      <!-- User reviews section -->
+      <div class="user-reviews">
+        <h2>User Reviews</h2>
+        <ul>
+          <!-- Loop through reviews and display them -->
+          <% if (reviews && reviews.length > 0) { %> <%
+          reviews.forEach(function(review) { %>
+          <li>
+            <p><strong><%= review.user_id %>:</strong> <%= review.comment %></p>
+            <div class="rating-stars">
+              <% for (let i = 0; i < review.rating; i++) { %> &#9733; <% } %>
+            </div>
+            <p>
+              <small
+                >Posted on: <%= new
+                Date(review.date_posted).toLocaleDateString() %></small
+              >
+            </p>
+          </li>
+          <% }); %> <% } else { %>
+          <li>No reviews available yet.</li>
+          <% } %>
+        </ul>
+      </div>
 
-        <!-- Add review form -->
-        <div class="add-review">
-            <h2>Add Your Review</h2>
-            <form action="/reviews" method="POST">
-                <input type="hidden" name="user_id" value="<%= user.id %>"> 
-                <input type="hidden" name="car_id" value="<%= car.car_id %>"> 
-                <div class="form-group">
-                    <label for="rating">Rating</label>
-                    <select id="rating" name="rating">
-                        <option value="1">1 - Poor</option>
-                        <option value="2">2 - Fair</option>
-                        <option value="3">3 - Good</option>
-                        <option value="4">4 - Very Good</option>
-                        <option value="5">5 - Excellent</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="comment">Your Review</label>
-                    <textarea id="comment" name="comment" placeholder="Write your review here..."></textarea>
-                </div>
-                <button type="submit">Submit Review</button>
-            </form>
-        </div>
+      <!-- Add review form -->
+      <div class="add-review">
+        <h2>Add Your Review</h2>
+        <form action="/reviews" method="POST">
+          <input type="hidden" name="user_id" value="<%= user.id %>" />
+          <input type="hidden" name="car_id" value="<%= car.car_id %>" />
+          <div class="form-group">
+            <label for="rating">Rating</label>
+            <select id="rating" name="rating">
+              <option value="1">1 - Poor</option>
+              <option value="2">2 - Fair</option>
+              <option value="3">3 - Good</option>
+              <option value="4">4 - Very Good</option>
+              <option value="5">5 - Excellent</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="comment">Your Review</label>
+            <textarea
+              id="comment"
+              name="comment"
+              placeholder="Write your review here..."
+            ></textarea>
+          </div>
+          <button type="submit">Submit Review</button>
+        </form>
+      </div>
     </div>
 
     <!-- Footer section -->
     <footer>
-        <p>&copy; 2024 HyperCar Showcase. All Rights Reserved <a href="/dashboard">Back to Dashboard</a></p>
+      <p>
+        &copy; 2024 HyperCar Showcase. All Rights Reserved
+        <a href="/dashboard">Back to Dashboard</a>
+      </p>
     </footer>
-
-</body>
+  </body>
 </html>

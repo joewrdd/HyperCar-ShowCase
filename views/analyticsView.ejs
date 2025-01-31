@@ -1,169 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Meta tags for character encoding and viewport settings -->
-    <meta charset="UTF-8"> <!-- Sets character encoding to UTF-8 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures responsive design for various screen sizes -->
+    <meta charset="UTF-8" />
+    <!-- Sets character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Ensures responsive design for various screen sizes -->
 
     <!-- Title of the page displayed on the browser tab -->
     <title>Car Price Analytics</title>
 
     <style>
-        /* Global styles */
-        body {
-            margin: 0; 
-            font-family: Arial, sans-serif; 
-            background-color: #121212; 
-            color: white; 
-        }
+      /* Global styles */
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #121212;
+        color: white;
+      }
 
-        /* Header styling */
-        header {
-            background-color: #ff0000; 
-            color: white; 
-            padding: 20px; 
-            text-align: center; 
-        }
+      /* Header styling */
+      header {
+        background-color: #ff0000;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-        h1 {
-            margin: 0; 
-            font-size: 2.5em;
-        }
+      h1 {
+        margin: 0;
+        font-size: 2.5em;
+      }
 
-        /* Styling for the chart container */
-        .chart-container {
-            max-width: 1200px; 
-            margin: 50px auto; 
-            padding: 20px; 
-            background-color: #1e1e1e; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-        }
+      /* Styling for the chart container */
+      .chart-container {
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #1e1e1e;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
 
-        canvas {
-            width: 100%; 
-            max-width: 1000px; 
-            margin: 0 auto;
-            display: block; 
-        }
+      canvas {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        display: block;
+      }
 
-        /* Footer styling */
-        footer {
-            background-color: #1e1e1e; 
-            text-align: center;
-            padding: 10px 0; 
-            margin-top: 20px; 
-            font-size: 0.9em;
-        }
+      /* Footer styling */
+      footer {
+        background-color: #1e1e1e;
+        text-align: center;
+        padding: 10px 0;
+        margin-top: 20px;
+        font-size: 0.9em;
+      }
 
-        footer a {
-            color: #ff0000;
-            text-decoration: none; 
-        }
+      footer a {
+        color: #ff0000;
+        text-decoration: none;
+      }
 
-        footer a:hover {
-            text-decoration: underline; 
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Enhanced chart container animation */
+      .chart-container {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+        border: 1px solid rgba(255, 0, 0, 0.1);
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
+
+      /* Header entrance animation */
+      header {
+        animation: slideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Header shine effect */
+      header:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        to {
+          left: 100%;
+        }
+      }
+
+      /* Enhanced title styling */
+      h1 {
+        position: relative;
+        display: inline-block;
+      }
+
+      h1:after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #ff0000;
+        animation: expandWidth 0.8s ease forwards 0.5s;
+      }
+
+      @keyframes expandWidth {
+        to {
+          width: 100%;
+        }
+      }
+
+      /* Loading animation for chart */
+      .chart-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        opacity: 0;
+        animation: fadeIn 0.3s ease forwards;
+      }
+
+      .chart-loading.hide {
+        opacity: 0;
+        animation: fadeOut 0.3s ease forwards;
+      }
+
+      /* Enhanced footer animation */
+      footer {
+        opacity: 0;
+        animation: fadeIn 0.5s ease forwards 1s;
+      }
+
+      footer a {
+        position: relative;
+        overflow: hidden;
+      }
+
+      footer a:after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #ff0000;
+        transition: width 0.3s ease;
+      }
+
+      footer a:hover:after {
+        width: 100%;
+      }
+
+      /* Chart tooltip customization */
+      .chartjs-tooltip {
+        background: rgba(30, 30, 30, 0.9);
+        border: 1px solid #ff0000;
+        border-radius: 4px;
+        color: white;
+        padding: 8px 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+
+      /* Back to Home button */
+      .back-home {
+        position: absolute;
+        right: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 12px 24px;
+        background: #000000;
+        color: white;
+        border: 2px solid #ff0000;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 14px;
+      }
+
+      .back-home:hover {
+        background: #ff0000;
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header section containing the page title -->
     <header>
-        <h1>Car Price Analytics</h1> <!-- Main title of the page -->
+      <h1>Car Price Analytics</h1>
+      <a href="/home" class="back-home">Back to Home</a>
     </header>
 
     <!-- Chart container where the price chart will be displayed -->
     <div class="chart-container">
-        <canvas id="priceChart"></canvas> <!-- Canvas element for the chart -->
+      <canvas id="priceChart"></canvas>
+      <!-- Canvas element for the chart -->
     </div>
 
     <!-- Footer with copyright and link to homepage -->
     <footer>
-        <p>&copy; 2024 HyperCar Showcase. All Rights Reserved <a href="home">Back to Homepage</a></p>
+      <p>
+        &copy; 2024 HyperCar Showcase. All Rights Reserved
+        <a href="home">Back to Homepage</a>
+      </p>
     </footer>
 
     <!-- Chart.js library for rendering the chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        /**
-         * Fetches car data from the server and passes it to the renderChart function
-         * 
-         * API Endpoint: GET /cars
-         * Fetches a list of cars with their brand, model, and price.
-         * 
-         * @returns {Promise<void>} None. Side effect: renders the chart.
-         */
-        async function fetchCarData() {
-            try {
-                // Fetch car data from the server
-                const response = await fetch('/cars');
-                const cars = await response.json(); // Parse the response as JSON
+      /**
+       * Fetches car data from the server and passes it to the renderChart function
+       *
+       * API Endpoint: GET /cars
+       * Fetches a list of cars with their brand, model, and price.
+       *
+       * @returns {Promise<void>} None. Side effect: renders the chart.
+       */
+      async function fetchCarData() {
+        try {
+          // Fetch car data from the server
+          const response = await fetch("/cars");
+          const cars = await response.json(); // Parse the response as JSON
 
-                // Map car data to labels (car brand and model) and prices
-                const labels = cars.map(car => `${car.brand} ${car.model}`);
-                const prices = cars.map(car => parseFloat(car.price.replace(/[^0-9.-]+/g, ""))); // Remove non-numeric characters from price
+          // Map car data to labels (car brand and model) and prices
+          const labels = cars.map((car) => `${car.brand} ${car.model}`);
+          const prices = cars.map((car) =>
+            parseFloat(car.price.replace(/[^0-9.-]+/g, ""))
+          ); // Remove non-numeric characters from price
 
-                // Render the chart with the fetched data
-                renderChart(labels, prices);
-            } catch (error) {
-                console.error('Error fetching car data:', error); // Log any errors encountered
-            }
+          // Render the chart with the fetched data
+          renderChart(labels, prices);
+        } catch (error) {
+          console.error("Error fetching car data:", error); // Log any errors encountered
         }
+      }
 
-        /**
-         * Renders a line chart using Chart.js with the given car labels and prices.
-         * 
-         * @param {string[]} labels - An array of car names (e.g., ["Ferrari 488 GTB", "Lamborghini Aventador"]).
-         * @param {number[]} prices - An array of car prices (e.g., [250000, 350000]).
-         * @returns {void} None. Side effect: renders the chart on the page.
-         */
-        function renderChart(labels, prices) {
-            // Get the canvas context to render the chart
-            const ctx = document.getElementById('priceChart').getContext('2d');
+      /**
+       * Renders a line chart using Chart.js with the given car labels and prices.
+       *
+       * @param {string[]} labels - An array of car names (e.g., ["Ferrari 488 GTB", "Lamborghini Aventador"]).
+       * @param {number[]} prices - An array of car prices (e.g., [250000, 350000]).
+       * @returns {void} None. Side effect: renders the chart on the page.
+       */
+      function renderChart(labels, prices) {
+        const ctx = document.getElementById("priceChart").getContext("2d");
 
-            // Initialize the chart with the specified data and options
-            new Chart(ctx, {
-                type: 'line', // Line chart type
-                data: {
-                    labels: labels, // X-axis labels (car names)
-                    datasets: [{
-                        label: 'Price Changes ($)', // Label for the dataset
-                        data: prices, // Y-axis data (car prices)
-                        borderColor: '#ff0000', // Red border color for the chart line
-                        backgroundColor: 'rgba(255, 0, 0, 0.2)', // Light red background for the chart
-                        fill: true, // Enable filling under the line
-                        tension: 0.4 // Smooth curve for the line
-                    }]
+        // Show loading animation
+        const loadingEl = document.createElement("div");
+        loadingEl.className = "chart-loading";
+        loadingEl.innerHTML = "Loading chart data...";
+        ctx.canvas.parentNode.appendChild(loadingEl);
+
+        // Gradient background
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, "rgba(255, 0, 0, 0.4)");
+        gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
+
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Price Changes ($)",
+                data: prices,
+                borderColor: "#ff0000",
+                backgroundColor: gradient,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: "#ff0000",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#ff0000",
+                pointRadius: 6,
+                pointHoverRadius: 8,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            animation: {
+              duration: 2000,
+              easing: "easeInOutQuart",
+              onComplete: () => {
+                loadingEl.classList.add("hide");
+                setTimeout(() => loadingEl.remove(), 300);
+              },
+            },
+            interaction: {
+              intersect: false,
+              mode: "index",
+            },
+            plugins: {
+              legend: {
+                display: true,
+                labels: {
+                  color: "white",
+                  font: {
+                    size: 14,
+                    weight: "bold",
+                  },
                 },
-                options: {
-                    responsive: true, // Make the chart responsive
-                    plugins: {
-                        legend: {
-                            display: true, // Show the legend
-                            labels: {
-                                color: 'white' // White legend text color
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: {
-                                color: 'white' // White ticks on the X-axis
-                            }
-                        },
-                        y: {
-                            ticks: {
-                                color: 'white' // White ticks on the Y-axis
-                            }
-                        }
-                    }
-                }
-            });
-        }
+              },
+              tooltip: {
+                backgroundColor: "rgba(30, 30, 30, 0.9)",
+                titleColor: "#ff0000",
+                bodyColor: "white",
+                borderColor: "#ff0000",
+                borderWidth: 1,
+                padding: 12,
+                displayColors: false,
+                callbacks: {
+                  label: function (context) {
+                    return `Price: $${context.parsed.y.toLocaleString()}`;
+                  },
+                },
+              },
+            },
+            scales: {
+              x: {
+                grid: {
+                  color: "rgba(255, 255, 255, 0.1)",
+                },
+                ticks: {
+                  color: "white",
+                },
+              },
+              y: {
+                grid: {
+                  color: "rgba(255, 255, 255, 0.1)",
+                },
+                ticks: {
+                  color: "white",
+                  callback: function (value) {
+                    return "$" + value.toLocaleString();
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
 
-        // Fetch car data and render the chart on page load
-        fetchCarData();
+      // Fetch car data and render the chart on page load
+      fetchCarData();
+
+      // Animate elements on scroll
+      const observerOptions = {
+        threshold: 0.1,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = "running";
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".chart-container").forEach((item) => {
+        item.style.animationPlayState = "paused";
+        observer.observe(item);
+      });
     </script>
-</body>
+  </body>
 </html>

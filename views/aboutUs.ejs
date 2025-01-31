@@ -1,129 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn more about HyperCar Showcase, your ultimate platform for hypercar enthusiasts.">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Learn more about HyperCar Showcase, your ultimate platform for hypercar enthusiasts."
+    />
     <title>About Us - HyperCar Showcase</title>
     <style>
-        /* 
+      /* 
         Documentation: Styles for the "About Us" page.
         - Background: Dark theme (#1a1a1a) with contrasting red highlights (#cc0000).
         - Font: Uses Arial for readability.
         - Layout: Centers main content with padding and shadows for a clean, modern design.
         */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a;
-            color: #fff;
-            line-height: 1.6;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #1a1a1a;
+        color: #fff;
+        line-height: 1.6;
+      }
 
-        header {
-            background: #cc0000;
-            padding: 1rem 0;
-            text-align: center;
-            position: relative;
-        }
+      header {
+        background: #cc0000;
+        padding: 1rem 0;
+        text-align: center;
+        position: relative;
+      }
 
-        header h1 {
-            margin: 0;
-            color: #fff;
-        }
+      header h1 {
+        margin: 0;
+        color: #fff;
+      }
 
-        header img {
-            height: 100px;
-            width: auto;
-            position: absolute;
-            top: 45%;
-            left: 20px;
-            transform: translateY(-50%);
-        }
+      header img {
+        height: 100px;
+        width: auto;
+        position: absolute;
+        top: 45%;
+        left: 20px;
+        transform: translateY(-50%);
+      }
 
-        main {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 1.5rem;
-            background: #cc0000;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.75);
-        }
+      main {
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 1.5rem;
+        background: #cc0000;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.75);
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards;
+      }
 
-        h2 {
-            color: black;
-            margin-top: 1.5rem;
-        }
+      h2 {
+        color: black;
+        margin-top: 1.5rem;
+        position: relative;
+        padding-left: 15px;
+      }
 
-        p, li {
-            color: #ddd;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-        }
+      h2:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: #cc0000;
+        transform: scaleY(0);
+        animation: scaleIn 0.5s ease forwards;
+      }
 
-        ul {
-            padding-left: 20px;
-        }
+      p,
+      li {
+        color: #ddd;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
 
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background: #333;
-            color: #ccc;
-            margin-top: 2rem;
-        }
+      ul {
+        padding-left: 20px;
+      }
 
-        footer a {
-            color: #cc0000;
-            text-decoration: none;
-        }
+      footer {
+        text-align: center;
+        padding: 1rem;
+        background: #333;
+        color: #ccc;
+        margin-top: 2rem;
+      }
 
-        .logo-image {
-            height: 100px;
-            width: auto;
-            position: absolute;
-            top: 65%; 
-            left: 20px; 
-        }
+      footer a {
+        color: #cc0000;
+        text-decoration: none;
+      }
 
-        .home-icon {
-            position: absolute;
-            top: -8px;
-            right: -15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 120px;
-            height: 110px;
-            background-color: transparent;
-            border-radius: 0%;
-            text-decoration: none;
-            box-shadow: none;
-            z-index: 10;
-        }
+      .logo-image {
+        height: 100px;
+        width: auto;
+        position: absolute;
+        top: 65%;
+        left: 20px;
+      }
 
-        .home-icon img {
-            width: 80%;
-            height: auto;
-            display: block;
-        }
+      .home-icon {
+        position: absolute;
+        top: -8px;
+        right: -15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 120px;
+        height: 110px;
+        background-color: transparent;
+        border-radius: 0%;
+        text-decoration: none;
+        box-shadow: none;
+        z-index: 10;
+      }
 
-        .home-icon .go-back-text {
-            color: black;
-            font-size: 14px;
-            margin-left: 20px;
-            margin-top: -20px;
-            font-weight: bold;
-        }
+      .home-icon img {
+        width: 80%;
+        height: auto;
+        display: block;
+      }
 
-        .home-icon:hover {
-            background-color: transparent;
-            transform: scale(1.1);
-            transition: transform 0.2s ease, background-color 0.2s ease;
+      .home-icon .go-back-text {
+        color: black;
+        font-size: 14px;
+        margin-left: 20px;
+        margin-top: -20px;
+        font-weight: bold;
+      }
+
+      .home-icon:hover {
+        background-color: transparent;
+        transform: scale(1.1);
+        transition: transform 0.2s ease, background-color 0.2s ease;
+      }
+
+      /* Enhanced content animations */
+      ul li {
+        opacity: 0;
+        transform: translateX(-20px);
+        animation: slideInLeft 0.5s ease forwards;
+      }
+
+      /* Stagger list item animations */
+      ul li:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      ul li:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      ul li:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+      ul li:nth-child(4) {
+        animation-delay: 0.8s;
+      }
+      ul li:nth-child(5) {
+        animation-delay: 1s;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes scaleIn {
+        to {
+          transform: scaleY(1);
+        }
+      }
+
+      @keyframes slideInLeft {
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Enhanced paragraph styling */
+      p {
+        line-height: 1.8;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      p:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        background: #cc0000;
+        border-radius: 50%;
+        transform: translateY(-50%);
+      }
+
+      /* Improved header animation */
+      header {
+        position: relative;
+        overflow: hidden;
+      }
+
+      header:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        to {
+          left: 100%;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- 
     Documentation: "About Us" Page Content
     - Purpose: Displays information about the HyperCar Showcase platform.
@@ -134,54 +249,96 @@
     -->
 
     <header>
-        <!-- Logo and Title -->
-        <img src="/images/logo.png" alt="HyperCar Showcase Logo" class="logo-image"> <!-- Logo for the page -->
-        <h1>About HyperCar Showcase</h1>
+      <!-- Logo and Title -->
+      <img
+        src="/images/logo.png"
+        alt="HyperCar Showcase Logo"
+        class="logo-image"
+      />
+      <!-- Logo for the page -->
+      <h1>About HyperCar Showcase</h1>
 
-        <!-- Home Icon: Links to Homepage -->
-        <a href="home" class="home-icon" title="Go to Homepage">
-            <img src="/images/homeicon.png" alt="Home" />
-        </a> 
+      <!-- Home Icon: Links to Homepage -->
+      <a href="home" class="home-icon" title="Go to Homepage">
+        <img src="/images/homeicon.png" alt="Home" />
+      </a>
     </header>
     <main>
-        <!-- Vision and Mission Statements -->
-        <h2>About HyperCar Showcase</h2>
-        <p>
-            Welcome to HyperCar Showcase, the ultimate destination for hypercar enthusiasts who are captivated by the thrill of speed, the elegance of luxury, and the pursuit of automotive perfection. Here, we bring the world’s most exclusive hypercars to your fingertips, creating an immersive experience like no other.
-        </p>
-        
-        <h2>Our Vision</h2>
-        <p>
-            Our vision is to unite hypercar aficionados from around the globe through a platform that celebrates innovation, performance, and style. HyperCar Showcase is more than just a platform—it's a community where passion for hypercars meets cutting-edge insights and exploration.
-        </p>
-        
-        <!-- Features Section -->
-        <h2>Discover What We Offer</h2>
-        <p>At HyperCar Showcase, we provide a comprehensive experience for every hypercar enthusiast. Dive into features designed to inspire and inform:</p>
-        <ul>
-            <li>Explore in-depth details and high-quality visuals of the world's most iconic hypercars.</li>
-            <li>Compare performance metrics, technical specifications, and pricing effortlessly.</li>
-            <li>Build your personal collection of favorite hypercars and keep them all in one place.</li>
-            <li>Connect with other enthusiasts by reading and contributing reviews.</li>
-            <li>Locate authorized service centers associated with top manufacturers.</li>
-        </ul>
+      <!-- Vision and Mission Statements -->
+      <h2>About HyperCar Showcase</h2>
+      <p>
+        Welcome to HyperCar Showcase, the ultimate destination for hypercar
+        enthusiasts who are captivated by the thrill of speed, the elegance of
+        luxury, and the pursuit of automotive perfection. Here, we bring the
+        world's most exclusive hypercars to your fingertips, creating an
+        immersive experience like no other.
+      </p>
 
-        <!-- Unique Selling Proposition -->
-        <h2>Why HyperCar Showcase?</h2>
-        <p>
-            We blend sophistication and simplicity to deliver a showcase that truly reflects the world of hypercars. Our bold red and black design echoes the spirit of hypercar culture—sleek, powerful, and exhilarating. Whether you're seeking inspiration or knowledge, we ensure an experience that's as thrilling as the cars themselves.
-        </p>
+      <h2>Our Vision</h2>
+      <p>
+        Our vision is to unite hypercar aficionados from around the globe
+        through a platform that celebrates innovation, performance, and style.
+        HyperCar Showcase is more than just a platform—it's a community where
+        passion for hypercars meets cutting-edge insights and exploration.
+      </p>
 
-        <!-- Call to Action -->
-        <h2>Join the Hypercar Lifestyle</h2>
-        <p>
-            HyperCar Showcase is your gateway to the world of high-performance automotive excellence. Whether you're a seasoned collector, a performance enthusiast, or someone who dreams of owning a hypercar, this is the place to explore, connect, and indulge in the art of driving. Start your journey today and immerse yourself in the pinnacle of automotive craftsmanship.
-        </p>
+      <!-- Features Section -->
+      <h2>Discover What We Offer</h2>
+      <p>
+        At HyperCar Showcase, we provide a comprehensive experience for every
+        hypercar enthusiast. Dive into features designed to inspire and inform:
+      </p>
+      <ul>
+        <li>
+          Explore in-depth details and high-quality visuals of the world's most
+          iconic hypercars.
+        </li>
+        <li>
+          Compare performance metrics, technical specifications, and pricing
+          effortlessly.
+        </li>
+        <li>
+          Build your personal collection of favorite hypercars and keep them all
+          in one place.
+        </li>
+        <li>
+          Connect with other enthusiasts by reading and contributing reviews.
+        </li>
+        <li>
+          Locate authorized service centers associated with top manufacturers.
+        </li>
+      </ul>
+
+      <!-- Unique Selling Proposition -->
+      <h2>Why HyperCar Showcase?</h2>
+      <p>
+        We blend sophistication and simplicity to deliver a showcase that truly
+        reflects the world of hypercars. Our bold red and black design echoes
+        the spirit of hypercar culture—sleek, powerful, and exhilarating.
+        Whether you're seeking inspiration or knowledge, we ensure an experience
+        that's as thrilling as the cars themselves.
+      </p>
+
+      <!-- Call to Action -->
+      <h2>Join the Hypercar Lifestyle</h2>
+      <p>
+        HyperCar Showcase is your gateway to the world of high-performance
+        automotive excellence. Whether you're a seasoned collector, a
+        performance enthusiast, or someone who dreams of owning a hypercar, this
+        is the place to explore, connect, and indulge in the art of driving.
+        Start your journey today and immerse yourself in the pinnacle of
+        automotive craftsmanship.
+      </p>
     </main>
 
     <footer>
-        <!-- Footer with Contact Details -->
-        <p>&copy; 2024 HyperCar Showcase. All Rights Reserved. | <a href="https://www.instagram.com/joewrdd" target="_blank">Contact Us</a></p>
+      <!-- Footer with Contact Details -->
+      <p>
+        &copy; 2024 HyperCar Showcase. All Rights Reserved. |
+        <a href="https://www.instagram.com/joewrdd" target="_blank"
+          >Contact Us</a
+        >
+      </p>
     </footer>
-</body>
+  </body>
 </html>

@@ -1,200 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - HyperCar Showcase</title>
     <style>
-        /* General styles */
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            height: 100%;
-            color: white;
-        }
-        
-        /* Main container */
+      /* General styles */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        height: 100%;
+        color: white;
+      }
+
+      /* Main container */
+      .container {
+        display: flex;
+        height: 100%;
+        animation: fadeScale 0.8s ease-out;
+      }
+
+      /* Login form section */
+      .login-section {
+        flex: 1;
+        background-color: #1a1a1a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .login-container {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      /* Welcome section */
+      .welcome-section {
+        flex: 1;
+        background: linear-gradient(135deg, #000000, #cc0000);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .welcome-content {
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+        animation: fadeIn 1s ease 0.5s forwards;
+      }
+
+      .welcome-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 30% 50%,
+          rgba(255, 0, 0, 0.2),
+          transparent 70%
+        );
+      }
+
+      /* Typography */
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .welcome-section h1 {
+        font-size: 4rem;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Form styles */
+      .form-field {
+        margin-bottom: 1.5rem;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideUpFade 0.5s ease forwards;
+      }
+
+      .form-field:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .form-field:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #333;
+        border: 1px solid #ff0000;
+        border-radius: 4px;
+        color: white;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      input:focus {
+        border-color: #ff0000;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 0.75rem;
+        background: linear-gradient(to right, #ff0000, #cc0000);
+        border: none;
+        color: white;
+        font-size: 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-btn:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease;
+      }
+
+      .login-btn:hover:before {
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Footer styles */
+      .footer {
+        margin-top: 1.5rem;
+        text-align: center;
+      }
+
+      .footer a {
+        color: #ff0000;
+        text-decoration: none;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
         .container {
-            display: flex;
-            height: 100%;
+          flex-direction: column;
         }
-        
-        /* Login form section */
-        .login-section {
-            flex: 1;
-            background-color: #1a1a1a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        /* Welcome section */
+
         .welcome-section {
-            flex: 1;
-            background: linear-gradient(135deg, #000000, #cc0000);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
+          display: none;
         }
-        
-        .welcome-content {
-            position: relative;
-            z-index: 1;
+      }
+
+      /* Enhanced container animation */
+      @keyframes fadeScale {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
         }
-        
-        .welcome-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 50%, rgba(255,0,0,0.2), transparent 70%);
+        to {
+          opacity: 1;
+          transform: scale(1);
         }
-        
-        /* Typography */
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+      }
+
+      /* Improved form field animations */
+      @keyframes slideUpFade {
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
-        .welcome-section h1 {
-            font-size: 4rem;
-            margin-bottom: 0.5rem;
+      }
+
+      /* Welcome section enhancements */
+      .welcome-section:before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 0, 0, 0.2),
+          transparent 70%
+        );
+        animation: rotate 20s linear infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
         }
-        
-        /* Form styles */
-        .form-field {
-            margin-bottom: 1.5rem;
+        to {
+          transform: rotate(360deg);
         }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
+      }
+
+      /* Welcome content animation */
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
         }
-        
-        input {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #333;
-            border: 1px solid #ff0000;
-            border-radius: 4px;
-            color: white;
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 0.75rem;
-            background: linear-gradient(to right, #ff0000, #cc0000);
-            border: none;
-            color: white;
-            font-size: 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        
-        .login-btn:hover {
-            background: linear-gradient(to right, #cc0000, #990000);
-        }
-        
-        /* Footer styles */
-        .footer {
-            margin-top: 1.5rem;
-            text-align: center;
-        }
-        
-        .footer a {
-            color: #ff0000;
-            text-decoration: none;
-        }
-        
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .welcome-section {
-                display: none;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="login-section">
-            <div class="login-container">
-                <h1>Sign In</h1>
-                <form id="loginForm">
-                    <div class="form-field">
-                        <label for="user-identifier">Email or Username</label>
-                        <input type="text" id="user-identifier" name="user-identifier" placeholder="Enter your email or username" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="user-password">Password</label>
-                        <input type="password" id="user-password" name="user-password" placeholder="Enter your password" required>
-                    </div>
-                    <button type="submit" class="login-btn">Login</button>
-                </form>
-                <div class="footer">
-                    <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-                </div>
-            </div>  
-        </div>
-        <div class="welcome-section">
-            <div class="welcome-bg"></div>
-            <div class="welcome-content">
-                <h1>Welcome To HyperCar ShowCase</h1>
-                <p>Sign in to access your account and explore our platform.</p>
+      <div class="login-section">
+        <div class="login-container">
+          <h1>Sign In</h1>
+          <form id="loginForm">
+            <div class="form-field">
+              <label for="user-identifier">Email or Username</label>
+              <input
+                type="text"
+                id="user-identifier"
+                name="user-identifier"
+                placeholder="Enter your email or username"
+                required
+              />
             </div>
+            <div class="form-field">
+              <label for="user-password">Password</label>
+              <input
+                type="password"
+                id="user-password"
+                name="user-password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+          </form>
+          <div class="footer">
+            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+          </div>
         </div>
+      </div>
+      <div class="welcome-section">
+        <div class="welcome-bg"></div>
+        <div class="welcome-content">
+          <h1>Welcome To HyperCar ShowCase</h1>
+          <p>Sign in to access your account and explore our platform.</p>
+        </div>
+      </div>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const userIdentifier = document.getElementById('user-identifier').value;
-            const userPassword = document.getElementById('user-password').value;
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const userIdentifier =
+            document.getElementById("user-identifier").value;
+          const userPassword = document.getElementById("user-password").value;
 
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: userIdentifier, 
-                        email: userIdentifier, 
-                        password: userPassword
-                    })
-                });
+          try {
+            const response = await fetch("/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: userIdentifier,
+                email: userIdentifier,
+                password: userPassword,
+              }),
+            });
 
-                const data = await response.json();
-                if (response.ok && data.token) {
-                    localStorage.setItem('auth_token', data.token);
-                    window.location.href = '/home';
-                } else {
-                    alert(data.message || 'Login failed!');
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                alert('An error occurred while logging in. Please try again.');
+            const data = await response.json();
+            if (response.ok && data.token) {
+              localStorage.setItem("auth_token", data.token);
+              window.location.href = "/home";
+            } else {
+              alert(data.message || "Login failed!");
             }
+          } catch (error) {
+            console.error("Login error:", error);
+            alert("An error occurred while logging in. Please try again.");
+          }
         });
     </script>
-</body>
+  </body>
 </html>

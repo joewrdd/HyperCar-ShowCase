@@ -1,170 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Meta tags for character encoding and responsive design -->
-    <meta charset="UTF-8"> <!-- Character encoding set to UTF-8 for universal character support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta charset="UTF-8" />
+    <!-- Character encoding set to UTF-8 for universal character support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Page Title -->
     <title>Car Comparison</title>
 
     <style>
-        /* Global body styling */
-        body {
-            font-family: Arial, sans-serif; 
-            background-color: #1a1a1a; 
-            color: #fff; 
-            margin: 0; 
-            padding: 0; 
-        }
+      /* Global body styling */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #1a1a1a;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+      }
 
-        /* Header styling */
-        header {
-            background-color: #cc0000; 
-            color: #fff; 
-            padding: 0.5rem; 
-            text-align: center; 
-        }
+      /* Header styling */
+      header {
+        background-color: #cc0000;
+        color: #fff;
+        padding: 3em;
+        animation: slideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-        header img {
-            height: 100px; 
-            width: auto; 
-            position: absolute;
-            top: 63%; 
-            transform: translateY(-50%); 
-            left: 20px; 
-        }
+      /* Header title styling */
+      header h1 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        z-index: 1;
+      }
 
-        /* Logo icon image */
-        .logo-image {
-            height: 100px;
-            width: auto;
-            position: absolute;
-            top: 5%; 
-            left: 20px; 
-        }
+      header img {
+        height: 100px;
+        width: auto;
+        position: absolute;
+        top: 63%;
+        transform: translateY(-50%);
+        left: 20px;
+        z-index: 2;
+      }
 
-        /* Home icon styles */
-        .home-icon {
-            position: absolute; 
-            top: -15px; 
-            right: -20px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            width: 120px;
-            height: 110px; 
-            background-color: transparent;
-            border-radius: 0%; 
-            text-decoration: none; 
-            box-shadow: none; 
-        }
+      /* Home icon styles */
+      .home-icon {
+        position: absolute;
+        top: -15px;
+        right: -20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 120px;
+        height: 110px;
+        background-color: transparent;
+        border-radius: 0%;
+        text-decoration: none;
+        box-shadow: none;
+      }
 
-        .home-icon img {
-            width: 80%; 
-            height: auto; 
-            display: block; 
-        }
+      .home-icon img {
+        width: 80%;
+        height: auto;
+        display: block;
+      }
 
-        /* Home icon hover effect */
-        .home-icon:hover {
-            background-color: transparent; 
-            transform: scale(1.1); 
-            transition: transform 0.2s ease, background-color 0.2s ease; 
-        }
+      /* Home icon hover effect */
+      .home-icon:hover {
+        background-color: transparent;
+        transform: scale(1.1);
+        transition: transform 0.2s ease, background-color 0.2s ease;
+      }
 
-        /* Comparison container for displaying car cards */
-        .comparison-container {
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 1rem; 
-            justify-content: center;
-            margin: 2rem; 
-        }
+      /* Comparison container for displaying car cards */
+      .comparison-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        margin: 2rem;
+      }
 
-        /* Styling for individual car cards */
-        .car-card {
-            background-color: #333;
-            border: 2px solid #cc0000; 
-            border-radius: 8px; 
-            width: 300px; 
-            padding: 1rem;
-            text-align: center;
-            position: relative; 
-        }
+      /* Styling for individual car cards */
+      .car-card {
+        background-color: #333;
+        border: 2px solid #cc0000;
+        border-radius: 8px;
+        width: 300px;
+        padding: 1rem;
+        text-align: center;
+        position: relative;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
 
-        .car-card img {
-            width: 100%; 
-            height: auto; 
-            border-radius: 5px;
-        }
+      .car-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-        .car-specs {
-            margin-top: 1rem; 
-            text-align: left;
-        }
+      .car-specs {
+        margin-top: 1rem;
+        text-align: left;
+      }
 
-        .car-specs h4 {
-            margin: 0.5rem 0; 
-        }
+      .car-specs h4 {
+        margin: 0.5rem 0;
+      }
 
-        .car-specs p {
-            margin: 0.2rem 0; 
-        }
+      .car-specs p {
+        margin: 0.2rem 0;
+      }
 
-        /* Header for comparison prompt */
-        .compare-header {
-            font-size: 1.5rem; 
-            color: #cc0000; 
-            text-align: center; 
-            margin-bottom: 2rem; 
-            margin-top: 2rem; 
-        }
+      /* Header for comparison prompt */
+      .compare-header {
+        font-size: 1.5rem;
+        color: #cc0000;
+        text-align: center;
+        margin-bottom: 2rem;
+        margin-top: 2rem;
+      }
 
-        /* Styling for the compare button */
-        .compare-btn {
-            display: block;
-            margin: 2rem auto; 
-            padding: 1rem 2rem; 
-            background-color: #cc0000; 
-            color: #fff; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
+      /* Styling for the compare button */
+      .compare-btn {
+        display: block;
+        margin: 2rem auto;
+        padding: 1rem 2rem;
+        background-color: #cc0000;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
 
-        /* Disabled state for the compare button */
-        .compare-btn:disabled {
-            background-color: #555; 
-            cursor: not-allowed; 
-        }
+      /* Disabled state for the compare button */
+      .compare-btn:disabled {
+        background-color: #555;
+        cursor: not-allowed;
+      }
 
-        /* Comparison table styling */
-        .comparison-table {
-            width: 100%; 
-            margin: 2rem 0; 
-            border-collapse: collapse;
-            text-align: left; 
-        }
+      /* Comparison table styling */
+      .comparison-table {
+        width: 100%;
+        margin: 2rem 0;
+        border-collapse: collapse;
+        text-align: left;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideUp 0.5s ease forwards;
+      }
 
-        .comparison-table th, .comparison-table td {
-            border: 1px solid #cc0000; 
-            padding: 0.5rem; 
-        }
+      .comparison-table th,
+      .comparison-table td {
+        border: 1px solid #cc0000;
+        padding: 0.5rem;
+        opacity: 0;
+        animation: fadeIn 0.5s ease forwards;
+      }
 
-        .comparison-table th {
-            background-color: #cc0000; 
+      .comparison-table th {
+        background-color: #cc0000;
+        background: linear-gradient(45deg, #cc0000, #990000);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .comparison-table th:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        to {
+          left: 100%;
         }
+      }
+
+      /* Enhanced header animation */
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Car card entrance animations */
+      .comparison-container > div:nth-child(odd) {
+        animation-delay: 0.2s;
+      }
+
+      .comparison-container > div:nth-child(even) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Enhanced checkbox animation */
+      .car-checkbox {
+        position: relative;
+        transform: scale(1.2);
+        transition: all 0.3s ease;
+      }
+
+      .car-checkbox:checked {
+        transform: scale(1.4);
+      }
+
+      .car-checkbox:checked::before {
+        animation: pulse 0.5s ease;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Enhanced image hover effects */
+      .car-card:hover img {
+        transform: scale(1.1) rotate(2deg);
+        box-shadow: 0 10px 20px rgba(204, 0, 0, 0.3);
+      }
+
+      /* Compare button animation */
+      .compare-btn:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease;
+      }
+
+      .compare-btn:hover:before {
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Comparison table animations */
+      @keyframes slideUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Add animation for comparison table header shine effect */
+      @keyframes shine {
+        to {
+          left: 100%;
+        }
+      }
+
+      /* Staggered animations for table rows */
+      .comparison-table tr:nth-child(1) th {
+        animation-delay: 0.2s;
+      }
+      .comparison-table tr:nth-child(2) td {
+        animation-delay: 0.3s;
+      }
+      .comparison-table tr:nth-child(3) td {
+        animation-delay: 0.4s;
+      }
+      .comparison-table tr:nth-child(4) td {
+        animation-delay: 0.5s;
+      }
+
+      /* Enhanced checkbox animation */
+      .car-checkbox {
+        position: relative;
+        transform: scale(1.2);
+        transition: all 0.3s ease;
+      }
+
+      .car-checkbox:checked {
+        transform: scale(1.4);
+      }
+
+      .car-checkbox:checked::before {
+        animation: pulse 0.5s ease;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Card hover effects */
+      .car-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 30px rgba(204, 0, 0, 0.3);
+      }
+
+      .car-card:hover img {
+        transform: scale(1.1) rotate(2deg);
+      }
+
+      /* Compare button hover effect */
+      .compare-btn:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease;
+      }
+
+      .compare-btn:hover:before {
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Comparison header animation */
+      .compare-header {
+        opacity: 0;
+        animation: fadeIn 0.8s ease forwards;
+        position: relative;
+      }
+
+      .compare-header:after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: #cc0000;
+        transform: translateX(-50%);
+        animation: expandWidth 0.8s ease forwards 0.5s;
+      }
+
+      @keyframes expandWidth {
+        to {
+          width: 100px;
+        }
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Back to Home button */
+      .back-home {
+        z-index: 2;
+        position: absolute;
+        right: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 12px 24px;
+        background: #000000;
+        color: white;
+        border: 2px solid #cc0000;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 14px;
+      }
+
+      .back-home:hover {
+        background: #cc0000;
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>HyperCar Showcase: Compare Hypercars</h1> <!-- Main header for the page -->
-        <img src="/images/logo.png" alt="HyperCar Showcase Logo" class="logo-image"> <!-- Logo for the page -->
-        <a href="home" class="home-icon" title="Go to Homepage"> <!-- Link to the homepage -->
-            <img src="/images/homeicon.png" alt="Home" /> <!-- Home icon image -->
-        </a>
+      <h1>HyperCar Showcase: Compare Hypercars</h1>
+      <a href="/home" class="back-home">Back to Home</a>
+      <img
+        src="/images/logo.png"
+        alt="HyperCar Showcase Logo"
+        class="logo-image"
+      />
     </header>
 
     <!-- Header for comparison prompt -->
@@ -172,90 +448,174 @@
 
     <!-- Container for displaying the car cards -->
     <div class="comparison-container" id="carList">
-        <!-- Loop through each car and create a card with checkbox for comparison -->
-        <% cars.forEach(car => { %>
-            <div class="car-card">
-                <!-- Checkbox for selecting a car -->
-                <input type="checkbox" class="car-checkbox" value="<%= car.car_id %>" data-car='<%= JSON.stringify(car) %>'>
-                <img src="<%= car.imagePath %>" alt="<%= car.model %> Image"> <!-- Car image -->
-                <h2><%= car.brand %> <%= car.model %></h2> <!-- Car brand and model -->
-                <div class="car-specs">
-                    <h4>Specifications:</h4>
-                    <p><strong>Top Speed:</strong> <%= car.top_speed %> km/h</p> <!-- Car top speed -->
-                    <p><strong>Horsepower:</strong> <%= car.horsepower %> HP</p> <!-- Car horsepower -->
-                    <p><strong>Price:</strong> <%= car.price %></p> <!-- Car price -->
-                </div>
-            </div>
-        <% }) %>
+      <!-- Loop through each car and create a card with checkbox for comparison -->
+      <% cars.forEach(car => { %>
+      <div class="car-card">
+        <!-- Checkbox for selecting a car -->
+        <input
+          type="checkbox"
+          class="car-checkbox"
+          value="<%= car.car_id %>"
+          data-car="<%= JSON.stringify(car) %>"
+        />
+        <img src="<%= car.imagePath %>" alt="<%= car.model %> Image" />
+        <!-- Car image -->
+        <h2><%= car.brand %> <%= car.model %></h2>
+        <!-- Car brand and model -->
+        <div class="car-specs">
+          <h4>Specifications:</h4>
+          <p><strong>Top Speed:</strong> <%= car.top_speed %> km/h</p>
+          <!-- Car top speed -->
+          <p><strong>Horsepower:</strong> <%= car.horsepower %> HP</p>
+          <!-- Car horsepower -->
+          <p><strong>Price:</strong> <%= car.price %></p>
+          <!-- Car price -->
+        </div>
+      </div>
+      <% }) %>
     </div>
 
     <!-- Compare button -->
-    <button class="compare-btn" id="compareBtn" disabled>Compare Selected Cars</button>
+    <button class="compare-btn" id="compareBtn" disabled>
+      Compare Selected Cars
+    </button>
 
     <!-- Section for displaying the comparison result -->
     <div id="comparisonResult"></div>
 
     <script>
-        /**
-         * Initializes the car comparison functionality
-         * 
-         * Listens for changes in car selection, enables or disables the compare button, 
-         * and handles displaying the comparison results.
-         * 
-         * @returns {void} None. Side effect: updates the page with comparison data.
-         */
-        const carCheckboxes = document.querySelectorAll('.car-checkbox');
-        const compareBtn = document.getElementById('compareBtn');
-        const comparisonResult = document.getElementById('comparisonResult');
+      /**
+       * Initializes the car comparison functionality
+       *
+       * Listens for changes in car selection, enables or disables the compare button,
+       * and handles displaying the comparison results.
+       *
+       * @returns {void} None. Side effect: updates the page with comparison data.
+       */
+      const carCheckboxes = document.querySelectorAll(".car-checkbox");
+      const compareBtn = document.getElementById("compareBtn");
+      const comparisonResult = document.getElementById("comparisonResult");
 
-        let selectedCars = []; // Stores selected cars for comparison
+      let selectedCars = []; // Stores selected cars for comparison
 
-        // Event listener for checkbox changes
-        carCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                const carData = JSON.parse(e.target.dataset.car); // Parse car data from checkbox
+      // Event listener for checkbox changes
+      carCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", (e) => {
+          const carData = JSON.parse(e.target.dataset.car); // Parse car data from checkbox
 
-                if (e.target.checked) {
-                    selectedCars.push(carData); // Add car to selection if checked
-                } else {
-                    selectedCars = selectedCars.filter(car => car.car_id !== carData.car_id); // Remove car if unchecked
-                }
+          if (e.target.checked) {
+            selectedCars.push(carData); // Add car to selection if checked
+          } else {
+            selectedCars = selectedCars.filter(
+              (car) => car.car_id !== carData.car_id
+            ); // Remove car if unchecked
+          }
 
-                compareBtn.disabled = selectedCars.length < 2; // Enable/Disable compare button based on selection
-            });
+          compareBtn.disabled = selectedCars.length < 2; // Enable/Disable compare button based on selection
         });
+      });
 
-        // Event listener for compare button click
-        compareBtn.addEventListener('click', () => {
-            if (selectedCars.length < 2) return; // Ensure at least two cars are selected
+      // Event listener for compare button click
+      compareBtn.addEventListener("click", () => {
+        if (selectedCars.length < 2) return; // Ensure at least two cars are selected
 
-            let tableHTML = `
+        let tableHTML = `
                 <table class="comparison-table">
                     <thead>
                         <tr>
                             <th>Feature</th>
-                            ${selectedCars.map(car => `<th>${car.brand} ${car.model}</th>`).join('')} <!-- Add column headers for each car -->
+                            ${selectedCars
+                              .map(
+                                (car) => `<th>${car.brand} ${car.model}</th>`
+                              )
+                              .join(
+                                ""
+                              )} <!-- Add column headers for each car -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>Top Speed (km/h)</td>
-                            ${selectedCars.map(car => `<td>${car.top_speed}</td>`).join('')} <!-- Top speed for each car -->
+                            ${selectedCars
+                              .map((car) => `<td>${car.top_speed}</td>`)
+                              .join("")} <!-- Top speed for each car -->
                         </tr>
                         <tr>
                             <td>Horsepower (HP)</td>
-                            ${selectedCars.map(car => `<td>${car.horsepower}</td>`).join('')} <!-- Horsepower for each car -->
+                            ${selectedCars
+                              .map((car) => `<td>${car.horsepower}</td>`)
+                              .join("")} <!-- Horsepower for each car -->
                         </tr>
                         <tr>
                             <td>Price</td>
-                            ${selectedCars.map(car => `<td>${car.price}</td>`).join('')} <!-- Price for each car -->
+                            ${selectedCars
+                              .map((car) => `<td>${car.price}</td>`)
+                              .join("")} <!-- Price for each car -->
                         </tr>
                     </tbody>
                 </table>
             `;
 
-            comparisonResult.innerHTML = tableHTML; // Display comparison result
+        comparisonResult.innerHTML = tableHTML; // Display comparison result
+      });
+
+      // Animate elements on scroll
+      const observerOptions = {
+        threshold: 0.1,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = "running";
+          }
+        });
+      }, observerOptions);
+
+      document
+        .querySelectorAll(".car-card, .comparison-table")
+        .forEach((item) => {
+          item.style.animationPlayState = "paused";
+          observer.observe(item);
+        });
+
+      // Enhanced checkbox interaction
+      document.querySelectorAll(".car-checkbox").forEach((checkbox) => {
+        checkbox.addEventListener("change", function () {
+          const card = this.closest(".car-card");
+          if (this.checked) {
+            card.style.transform = "scale(1.05)";
+            card.style.boxShadow = "0 20px 30px rgba(0, 0, 0, 0.4)";
+          } else {
+            card.style.transform = "scale(1)";
+            card.style.boxShadow = "none";
+          }
+        });
+      });
+
+      // Smooth scroll to comparison table
+      document
+        .querySelector(".compare-btn")
+        .addEventListener("click", function () {
+          const table = document.querySelector(".comparison-table");
+          if (table) {
+            table.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+
+      // Add loading animation when comparing
+      document
+        .getElementById("compareBtn")
+        .addEventListener("click", function () {
+          if (!this.disabled) {
+            this.innerHTML = '<span class="loading">Comparing...</span>';
+            this.style.opacity = "0.8";
+            setTimeout(() => {
+              this.innerHTML = "Compare Selected Cars";
+              this.style.opacity = "1";
+            }, 800);
+          }
         });
     </script>
-</body>
+  </body>
 </html>

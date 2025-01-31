@@ -1,170 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <!-- Meta tags for character set and responsive design -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Favorite Cars</title>
+  <head>
+    <!-- Meta tags for character set and responsive design -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Favorite Cars</title>
 
-  <!-- CSS styles for the page -->
-  <style>
-    /* General body styling */
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #121212; 
-      color: #ffffff;
-      margin: 0;
-      padding: 0;
-    }
+    <!-- CSS styles for the page -->
+    <style>
+      /* General body styling */
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #121212;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+      }
 
-    /* Header styling */
-    header {
-      background-color: #cc0000; 
-      padding: 20px;
-      text-align: center;
-    }
+      /* Header styling */
+      header {
+        background-color: #cc0000;
+        padding: 20px;
+        text-align: center;
+        animation: slideDown 0.5s ease;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-    header h1 {
-      color: white; 
-      font-size: 36px;
-      margin: 0;
-    }
+      header h1 {
+        color: white;
+        font-size: 36px;
+        margin: 0;
+      }
 
-    /* Style for the favorites box */
-    .favorites-container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 30px auto;
-      background-color: #1e1e1e; 
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-    }
+      /* Back to Home button */
+      .back-home {
+        position: absolute;
+        right: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 12px 24px;
+        background: #000000;
+        color: white;
+        border: 2px solid #cc0000;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 14px;
+      }
 
-    .favorites-container h1 {
-      text-align: center;
-      color: #e60000;
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
+      .back-home:hover {
+        background: #cc0000;
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
+      }
 
-    .favorites-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+      /* Style for the favorites box */
+      .favorites-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 30px auto;
+        background-color: #1e1e1e;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        animation: fadeIn 0.8s ease forwards;
+      }
 
-    .favorite-item {
-      background-color: #292929; 
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+      .favorites-container h1 {
+        text-align: center;
+        color: #e60000;
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
 
-    .favorite-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.8);
-    }
+      .favorites-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
 
-    /* Images of each user favorite */
-    .favorite-item img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      border: 2px solid #e60000;
-    }
+      .favorite-item {
+        background-color: #292929;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.5s ease forwards;
+      }
 
-    .favorite-item h2 {
-      color: #e60000;
-      font-size: 20px;
-      margin: 10px 0;
-    }
+      .favorites-list li:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .favorites-list li:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .favorites-list li:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .favorites-list li:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .favorites-list li:nth-child(5) {
+        animation-delay: 0.5s;
+      }
 
-    .favorite-item button {
-      background-color: #e60000;
-      color: #ffffff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+      .favorite-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+      }
 
-    .favorite-item button:hover {
-      background-color: #cc0000;
-    }
+      /* Images of each user favorite */
+      .favorite-item img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border: 2px solid #e60000;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-    /* No Favorites Text */
-    .no-favorites {
-      text-align: center;
-      font-size: 18px;
-      color: #ffffff;
-      margin-top: 20px;
-    }
+      .favorite-item:hover img {
+        transform: scale(1.1);
+      }
 
-    /* Footer Styles */
-    footer {
-      background-color: #1a1a1a;
-      color: #777;
-      text-align: center;
-      padding: 15px;
-      font-size: 14px;
-    }
+      .favorite-item h2 {
+        color: #e60000;
+        font-size: 20px;
+        margin: 10px 0;
+      }
 
-    footer p {
-      margin: 0;
-    }
+      .favorite-item button {
+        background-color: #e60000;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
 
-    footer a {
-      color: #ff0000;
-      text-decoration: none;
-    }
+      .favorite-item button:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease;
+      }
 
-    footer a:hover {
-      text-decoration: underline;
-    }
+      .favorite-item button:hover:before {
+        width: 200px;
+        height: 200px;
+      }
 
-  </style>
-</head>
-<body>
+      /* No Favorites Text */
+      .no-favorites {
+        text-align: center;
+        font-size: 18px;
+        color: #ffffff;
+        margin-top: 20px;
+        opacity: 0;
+        animation: fadeInUp 0.5s ease 0.3s forwards;
+      }
+
+      /* Footer Styles */
+      footer {
+        background-color: #1a1a1a;
+        color: #777;
+        text-align: center;
+        padding: 15px;
+        font-size: 14px;
+      }
+
+      footer p {
+        margin: 0;
+      }
+
+      footer a {
+        color: #ff0000;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Enhanced header animation */
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      /* Favorite item animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Container entrance animation */
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Enhanced hover effect */
+      .favorite-item {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .favorite-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+      }
+    </style>
+  </head>
+  <body>
     <header>
       <!-- Header Title Page -->
       <h1>Manage Your Favorite Cars In Our Showcase</h1>
+      <a href="/home" class="back-home">Back to Home</a>
     </header>
 
     <div class="favorites-container">
-        <h1>Your Favorite Cars</h1>
-        <!-- List to display favorite cars -->
-        <ul class="favorites-list">
-            <% if (favoriteCars && favoriteCars.length > 0) { %>
-              <!-- Loop through each favorite car -->
-                <% favoriteCars.forEach(function(car) { %>
-                    <li class="favorite-item" id="favorite-<%= car.car_id %>">
-                      <img src="<%= car.imagePath %>" alt="<%= car.model %> Image">
-                      <!-- Display car brand and model -->
-                      <h2><%= car.brand %> <%= car.model %></h2>
-                      <!-- Form to remove a car from favorites -->
-                      <form action="/favorites/<%= car.favorites_id %>?_method=DELETE" method="POST" style="display:inline;">
-                        <button type="submit">Remove from Favorites</button>
-                    </form>
-                    </li>
-                <% }) %>
-            <% } else { %>
-                <!-- Display message when no favorite cars are added -->
-                <p class="no-favorites">You have no favorite cars yet.</p>
-            <% } %>
-        </ul>
+      <h1>Your Favorite Cars</h1>
+      <!-- List to display favorite cars -->
+      <ul class="favorites-list">
+        <% if (favoriteCars && favoriteCars.length > 0) { %>
+        <!-- Loop through each favorite car -->
+        <% favoriteCars.forEach(function(car) { %>
+        <li class="favorite-item" id="favorite-<%= car.car_id %>">
+          <img src="<%= car.imagePath %>" alt="<%= car.model %> Image" />
+          <!-- Display car brand and model -->
+          <h2><%= car.brand %> <%= car.model %></h2>
+          <!-- Form to remove a car from favorites -->
+          <form
+            action="/favorites/<%= car.favorites_id %>?_method=DELETE"
+            method="POST"
+            style="display: inline"
+          >
+            <button type="submit">Remove from Favorites</button>
+          </form>
+        </li>
+        <% }) %> <% } else { %>
+        <!-- Display message when no favorite cars are added -->
+        <p class="no-favorites">You have no favorite cars yet.</p>
+        <% } %>
+      </ul>
     </div>
 
     <!-- Footer Section with Back To Home Return Route -->
     <footer>
-      <p>&copy; 2024 HyperCar Showcase. All Rights Reserved <a href="home">Back to Homepage</a></p>
+      <p>&copy; 2024 HyperCar Showcase. All Rights Reserved</p>
     </footer>
-</body>
+
+    <!-- Add this script before closing body tag -->
+    <script>
+      // Animate items on scroll
+      const observerOptions = {
+        threshold: 0.1,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = "running";
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".favorite-item").forEach((item) => {
+        item.style.animationPlayState = "paused";
+        observer.observe(item);
+      });
+    </script>
+  </body>
 </html>

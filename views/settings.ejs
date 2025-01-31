@@ -1,160 +1,410 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Meta tags for character set and responsive design -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Profile</title>
 
     <!-- CSS styles for the page -->
     <style>
-        body {
-            /* General body styling */
-            font-family: Arial, sans-serif;
-            background-color: #1b1b1b; 
-            color: #fff; 
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        /* General body styling */
+        font-family: Arial, sans-serif;
+        background-color: #1b1b1b;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+      }
 
-        /* Box Including all Settings Info */
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: #2c2c2c; 
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
+      /* Box Including all Settings Info */
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #2c2c2c;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
 
-        /* Header styling */
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+      /* Header styling */
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-        .header h1 {
-            color: #e50914; 
-            margin-bottom: 10px;
-        }
+      .header h1 {
+        color: #e50914;
+        margin-bottom: 10px;
+      }
 
-        /* Profile Picture Display */
-        .profile-picture {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+      /* Back to Home button */
+      .back-home {
+        position: absolute;
+        right: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 12px 24px;
+        background: #000000;
+        color: white;
+        border: 2px solid #e50914;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 14px;
+      }
 
-        /* Profile Image inside the Display */
-        .profile-picture img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #e50914; 
-        }
+      .back-home:hover {
+        background: #e50914;
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+      }
 
-        .upload-btn {
-            margin-top: 10px;
-            display: inline-block;
-            color: #fff;
-            background-color: #e50914;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
+      /* Profile Picture Display */
+      .profile-picture {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-        .upload-btn:hover {
-            background-color: #ff4a5c;
-        }
+      /* Profile Image inside the Display */
+      .profile-picture img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #e50914;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+      }
 
-        .info {
-            margin: 20px 0;
-        }
+      .profile-picture img:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+      }
 
-        .info p {
+      .upload-btn {
+        margin-top: 10px;
+        display: inline-block;
+        color: #fff;
+        background-color: #e50914;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
 
-            font-size: 1.2em;
-            margin: 10px 0;
-        }
+      .upload-btn:hover {
+        background-color: #ff4a5c;
+      }
 
-        .favorite-count {
-            font-size: 1.5em;
-            color: #e50914;
-            text-align: center;
-        }
+      .upload-btn:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease;
+      }
 
-        .social-links {
-            text-align: center;
-            margin-top: 20px;
-        }
+      .upload-btn:hover:before {
+        width: 300px;
+        height: 300px;
+      }
 
-        .social-links a {
-            color: #fff;
-            margin: 0 10px;
-            font-size: 1.5em;
-            text-decoration: none;
-        }
+      .info {
+        margin: 20px 0;
+      }
 
-        .social-links a:hover {
-            color: #e50914;
-        }
+      .info p {
+        font-size: 1.2em;
+        margin: 10px 0;
+        opacity: 0;
+        transform: translateX(-20px);
+        animation: slideInRight 0.5s ease forwards;
+      }
 
-         /* Footer styling */
-         footer {
-            background-color: #1e1e1e; 
-            text-align: center;
-            padding: 10px 0; 
-            margin-top: 20px; 
-            font-size: 0.9em;
-        }
+      .info p:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .info p:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+      .info p:nth-child(3) {
+        animation-delay: 0.4s;
+      }
 
-        footer a {
-            color: #ff0000;
-            text-decoration: none; 
+      @keyframes slideInRight {
+        to {
+          opacity: 1;
+          transform: translateX(0);
         }
+      }
 
-        footer a:hover {
-            text-decoration: underline; 
+      .favorite-count {
+        font-size: 1.5em;
+        color: #e50914;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .favorite-count:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(229, 9, 20, 0.2),
+          transparent
+        );
+        animation: shine 2s infinite;
+      }
+
+      @keyframes shine {
+        to {
+          left: 100%;
         }
+      }
+
+      .social-links {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        color: #fff;
+        margin: 0 10px;
+        font-size: 1.5em;
+        text-decoration: none;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:before {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #e50914;
+        transition: width 0.3s ease;
+      }
+
+      .social-links a:hover:before {
+        width: 100%;
+      }
+
+      .social-links a:hover {
+        color: #e50914;
+        transform: translateY(-2px);
+      }
+
+      /* Footer styling */
+      footer {
+        background-color: #1e1e1e;
+        text-align: center;
+        padding: 10px 0;
+        margin-top: 20px;
+        font-size: 0.9em;
+      }
+
+      footer a {
+        color: #ff0000;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Enhanced container animation */
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Profile picture hover effect */
+      .profile-picture img:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+      }
+
+      /* Upload button animation */
+      .upload-btn:hover:before {
+        width: 300px;
+        height: 300px;
+      }
+
+      /* Info section animations */
+      .info p {
+        opacity: 0;
+        transform: translateX(-20px);
+        animation: slideInRight 0.5s ease forwards;
+      }
+
+      .info p:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .info p:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+      .info p:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes slideInRight {
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Social links hover effect */
+      .social-links a:hover {
+        color: #e50914;
+        transform: translateY(-2px);
+      }
+
+      /* Favorite count animation */
+      .favorite-count:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(229, 9, 20, 0.2),
+          transparent
+        );
+        animation: shine 2s infinite;
+      }
+
+      @keyframes shine {
+        to {
+          left: 100%;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="header">
-            <!-- Header Title -->
-            <h1>Welcome, <%= user.name %>!</h1>
-        </div>
-        <!-- Choose a picture from photos, if not default avatar -->
-        <div class="profile-picture">
-            <img src="<%= user.profilePicture || '/images/default-avatar.png' %>" alt="Profile Picture">
-            <form method="POST" enctype="multipart/form-data" action="/upload-profile-picture">
-                <input type="file" name="profilePicture" accept="image/*" hidden id="fileInput">
-                <button type="button" class="upload-btn" onclick="document.getElementById('fileInput').click()">Change Picture</button>
-            </form>
-        </div>
-        <div class="info">
-            <p><strong>Username:</strong> <%= user.name %></p>
-            <p><strong>Favorited Cars:</strong> <%= favoriteCount %></p>
-        </div>
-        <div class="social-links">
-            <!-- Links Ur GitHub, LinkedIn and Instagram To Your Account!! -->
-            <p>Connect with me:</p>
-            <a href="https://github.com/" target="_blank" title="GitHub">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-            <a href="https://www.linkedin.com/" target="_blank" title="LinkedIn">
-                <i class="fab fa-linkedin"></i> LinkedIn
-            </a>
-            <a href="https://www.instagram.com/" target="_blank" title="Instagram">
-                <i class="fab fa-instagram"></i> Instagram
-            </a>
-        </div>
+      <div class="header">
+        <!-- Header Title -->
+        <h1>Welcome, <%= user.name %>!</h1>
+        <a href="/home" class="back-home">Back to Home</a>
+      </div>
+      <!-- Choose a picture from photos, if not default avatar -->
+      <div class="profile-picture">
+        <img
+          src="<%= user.profilePicture || '/images/default-avatar.png' %>"
+          alt="Profile Picture"
+        />
+        <form
+          method="POST"
+          enctype="multipart/form-data"
+          action="/upload-profile-picture"
+        >
+          <input
+            type="file"
+            name="profilePicture"
+            accept="image/*"
+            hidden
+            id="fileInput"
+          />
+          <button
+            type="button"
+            class="upload-btn"
+            onclick="document.getElementById('fileInput').click()"
+          >
+            Change Picture
+          </button>
+        </form>
+      </div>
+      <div class="info">
+        <p><strong>Username:</strong> <%= user.name %></p>
+        <p><strong>User ID:</strong> <%= user.id %></p>
+        <p><strong>Favorited Cars:</strong> <%= favoriteCount %></p>
+      </div>
+      <div class="social-links">
+        <!-- Links Ur GitHub, LinkedIn and Instagram To Your Account!! -->
+        <p>Connect with me:</p>
+        <a href="https://github.com/" target="_blank" title="GitHub">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://www.linkedin.com/" target="_blank" title="LinkedIn">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+        <a href="https://www.instagram.com/" target="_blank" title="Instagram">
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+      </div>
     </div>
-</body>
+
+    <!-- Add this script before closing body tag -->
+    <script>
+      // Profile picture preview
+      document
+        .getElementById("fileInput")
+        .addEventListener("change", function (e) {
+          if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              document.querySelector(".profile-picture img").src =
+                e.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+          }
+        });
+
+      // Animate elements on scroll
+      const observerOptions = {
+        threshold: 0.1,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = "running";
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".info p, .social-links a").forEach((item) => {
+        item.style.animationPlayState = "paused";
+        observer.observe(item);
+      });
+    </script>
+  </body>
 </html>
- <!-- Footer with copyright and link to homepage -->
- <footer>
-    <p>&copy; 2024 HyperCar Showcase. All Rights Reserved <a href="home">Back to Homepage</a></p>
+<!-- Footer with copyright and link to homepage -->
+<footer>
+  <p>&copy; 2024 HyperCar Showcase. All Rights Reserved</p>
 </footer>
